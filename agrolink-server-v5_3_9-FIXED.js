@@ -4352,71 +4352,6 @@ async function compressImage(inputPath, outputPath, options = {}) {
         throw error;
     }
 }
-                    fit: 'inside',
-                    withoutEnlargement: true,
-                    fastShrinkOnLoad: true,
-                    kernel: 'lanczos3'  // 🚀 Daha kaliteli kernel - yüksek çözünürlük için
-                })
-                .webp({ 
-                    quality: useQuality,
-                    effort: 2,           // 🚀 Biraz daha iyi kalite
-                    nearLossless: false,
-                    smartSubsample: true  // 🚀 Aktif - daha iyi renk korunumu
-                })
-                .toFile(outputPath);
-        } catch (resizeError) {
-            console.error('❌ Resize hatası, orijinal boyutla deneniyor:', resizeError.message);
-            // Resize başarısız olursa direkt webp'ye çevir
-            await sharp(inputPath, {
-                failOnError: false,
-                limitInputPixels: limitInputPixels
-            })
-            .webp({ quality: useQuality })
-            .toFile(outputPath);
-        }
-        
-        await fs.unlink(inputPath).catch(() => {});
-        
-        let outputSizeMB = 0;
-        try {
-            const outputStats = fssync.statSync(outputPath);
-            outputSizeMB = outputStats.size / (1024 * 1024);
-        } catch (e) {
-            outputSizeMB = fileSizeMB * 0.5; // Tahmini
-        }
-        
-        const compressionRatio = ((fileSizeMB - outputSizeMB) / fileSizeMB * 100).toFixed(1);
-        
-        console.log(`✅ Görsel: ${metadata.width || '?'}x${metadata.height || '?'} → ${targetWidth}x${targetHeight} | ${fileSizeMB.toFixed(1)}MB → ${outputSizeMB.toFixed(1)}MB (${compressionRatio}% sıkıştırma, Q:${useQuality})`);
-        
-        return {
-            success: true,
-            width: targetWidth,
-            height: targetHeight,
-            originalWidth: metadata.width || targetWidth,
-            originalHeight: metadata.height || targetHeight,
-            compressionRatio: parseFloat(compressionRatio)
-        };
-    } catch (error) {
-        console.error('❌ Resim sıkıştırma hatası:', error.message, error.stack);
-        
-        // 🚀 Hata durumunda orijinal dosyayı kopyala
-        try {
-            // Dosya var mı kontrol et
-            if (fssync.existsSync(inputPath)) {
-                await fs.copyFile(inputPath, outputPath);
-                await fs.unlink(inputPath).catch(() => {});
-                console.log('⚠️ Görsel işlenemedi, orijinal kopyalandı');
-                return { success: true, optimized: false, error: error.message };
-            } else {
-                return { success: false, error: 'Kaynak dosya bulunamadı: ' + error.message };
-            }
-        } catch (copyError) {
-            console.error('❌ Kopyalama da başarısız:', copyError.message);
-            return { success: false, error: copyError.message };
-        }
-    }
-}
 
 // Video bilgilerini al (hızlı) - 🔧 GELİŞTİRİLMİŞ HATA AYIKLAMA
 async function getVideoInfo(inputPath) {
@@ -4700,7 +4635,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
     storage,
     limits: {
-        fileSize: 100 * 1024 * 1024, // 100MB'a çıkarıldı (önceden 50MB)
+        fileSize: 50 * 1024 * 1024, // 50MB limit
         files: 15, // 15 dosyaya çıkarıldı (önceden 10)
         fieldSize: 10 * 1024 * 1024, // 10MB field size
         fields: 50 // Maksimum field sayısı
