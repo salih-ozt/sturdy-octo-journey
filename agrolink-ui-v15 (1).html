@@ -5,23 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AgroLink | Dijital Tarım Topluluğu</title>
     <meta name="description" content="AgroLink - Çiftçiler için dijital tarım topluluğu. Bilgi paylaş, ürün sat, bağlantı kur.">
-
-    <!-- ========== OPEN GRAPH / SOSYAL MEDYA PAYLAŞIM ========== -->
-    <meta property="og:type"        content="website">
-    <meta property="og:site_name"   content="AgroLink">
-    <meta property="og:title"       id="og-title"       content="AgroLink | Dijital Tarım Topluluğu">
-    <meta property="og:description" id="og-description" content="Çiftçiler, ziraat mühendisleri ve tarım tutkunlarının buluştuğu dijital platform. Bilgi paylaş, ürün sat, topluluğa katıl.">
-    <meta property="og:image"       id="og-image"       content="https://sehitumitkestitarimmtal.com/agro.png">
-    <meta property="og:image:width"  content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url"         id="og-url"         content="https://sehitumitkestitarimmtal.com">
-    <meta property="og:locale"      content="tr_TR">
-    <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:title"       id="tw-title"       content="AgroLink | Dijital Tarım Topluluğu">
-    <meta name="twitter:description" id="tw-description" content="Çiftçiler, ziraat mühendisleri ve tarım tutkunlarının buluştuğu dijital platform.">
-    <meta name="twitter:image"       id="tw-image"       content="https://sehitumitkestitarimmtal.com/agro.png">
-    <link rel="canonical" id="canonical-url" href="https://sehitumitkestitarimmtal.com">
-    <!-- ==================== OG SONU ==================== -->
     
     <!-- ========== GÜVENLİK SİSTEMİ v3.0 - ALPINE.JS UYUMLU ========== -->
     <!-- 
@@ -324,16 +307,192 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* ========== CAROUSEL / ÇOKLU MEDYA ========== */
+        .media-carousel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.2rem;
+        }
+        .media-carousel-track {
+            display: flex;
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+            will-change: transform;
+        }
+        .media-carousel-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            position: relative;
+        }
+        .media-carousel-slide img,
+        .media-carousel-slide video {
+            width: 100%;
+            display: block;
+            max-height: 600px;
+            min-height: 180px;
+            object-fit: contain;
+            background: #000;
+        }
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+        .carousel-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.25s ease;
+        }
+        .carousel-dot.active {
+            background: #fff;
+            width: 18px;
+            border-radius: 3px;
+        }
+        .carousel-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            backdrop-filter: blur(4px);
+            transition: opacity 0.2s;
+        }
+        .carousel-nav-btn:hover { opacity: 0.9; }
+        .carousel-nav-btn.prev { left: 8px; }
+        .carousel-nav-btn.next { right: 8px; }
+        .carousel-count-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            z-index: 10;
+        }
+
+        /* ========== VIDEO LOADING SPINNER ========== */
+        .video-loading-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.35);
+            z-index: 5;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .video-loading-overlay.hidden { opacity: 0; pointer-events: none; }
+        .video-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255,255,255,0.25);
+            border-top-color: #00b894;
+            border-radius: 50%;
+            animation: spin 0.85s linear infinite;
+        }
+
+        /* ========== ÇOKLU MEDYA SEÇİMİ (POST FORM) ========== */
+        .multi-media-grid {
+            display: grid;
+            gap: 4px;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .multi-media-grid.count-1 { grid-template-columns: 1fr; }
+        .multi-media-grid.count-2 { grid-template-columns: 1fr 1fr; }
+        .multi-media-grid.count-3 { grid-template-columns: 1fr 1fr; }
+        .multi-media-grid.count-3 .media-thumb:first-child { grid-column: 1 / -1; }
+        .multi-media-grid.count-4 { grid-template-columns: 1fr 1fr; }
+        .multi-media-grid.count-many { grid-template-columns: 1fr 1fr 1fr; }
+        .media-thumb {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: #000;
+        }
+        .media-thumb img, .media-thumb video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .media-thumb-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.65);
+            color: white;
+            border: none;
+            font-size: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+        .media-thumb-type {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
+        .add-more-btn {
+            aspect-ratio: 1;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            color: var(--text-sec);
+            font-size: 12px;
+            background: var(--input-bg);
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .add-more-btn:hover {
+            border-color: #00b894;
+            color: #00b894;
+        }
         .glass { 
-    background: var(--glass-bg, rgba(255,255,255,0.85)); 
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid var(--glass-border, rgba(255,255,255,0.3));
-}
-.dark-theme .glass {
-    --glass-bg: rgba(15,23,42,0.85);
-    --glass-border: rgba(255,255,255,0.07);
-}
+            background: var(--glass-bg, rgba(255,255,255,0.92)); 
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border, rgba(0,0,0,0.06));
+            box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+        }
+        .dark-theme .glass {
+            --glass-bg: rgba(15,23,42,0.92);
+            --glass-border: rgba(255,255,255,0.07);
+            box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+        }
         .agro-card { 
             background: var(--bg-card);
             border: 1px solid var(--border); 
@@ -1432,6 +1591,9 @@
             scroll-snap-type: y mandatory;
             -webkit-overflow-scrolling: touch;
             overscroll-behavior-y: contain;
+            /* scroll-behavior: smooth kaldırıldı — scroll-snap ile çakışıp titreme yapıyor */
+            will-change: scroll-position;
+            transform: translateZ(0);
         }
         
         .tiktok-post {
@@ -1446,6 +1608,7 @@
             background: black;
             will-change: transform;
             contain: layout style paint;
+            touch-action: pan-y;
         }
         
         .tiktok-post img, .tiktok-post video {
@@ -1793,161 +1956,6 @@
             color: var(--text-sec);
         }
         
-        /* ===== CAROUSEL / ÇOK MEDYA ===== */
-        .post-carousel {
-            position: relative;
-            overflow: hidden;
-            border-radius: 1.2rem;
-            background: #000;
-            touch-action: pan-y;
-        }
-        .post-carousel-track {
-            display: flex;
-            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
-            will-change: transform;
-        }
-        .post-carousel-slide {
-            flex: 0 0 100%;
-            width: 100%;
-            max-height: 520px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #000;
-        }
-        .post-carousel-slide img,
-        .post-carousel-slide video {
-            width: 100%;
-            max-height: 520px;
-            object-fit: contain;
-            display: block;
-        }
-        .post-carousel-dots {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 5px;
-            z-index: 5;
-        }
-        .post-carousel-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.45);
-            transition: all 0.2s;
-        }
-        .post-carousel-dot.active {
-            background: #fff;
-            width: 18px;
-            border-radius: 3px;
-        }
-        .post-carousel-counter {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            background: rgba(0,0,0,0.55);
-            color: #fff;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 9px;
-            border-radius: 20px;
-            z-index: 5;
-            backdrop-filter: blur(4px);
-        }
-        .post-carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 5;
-            width: 32px;
-            height: 32px;
-            background: rgba(0,0,0,0.45);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 12px;
-            cursor: pointer;
-            border: none;
-            backdrop-filter: blur(4px);
-            transition: background 0.15s;
-        }
-        .post-carousel-btn:active { background: rgba(0,0,0,0.75); }
-        .post-carousel-btn.prev { left: 8px; }
-        .post-carousel-btn.next { right: 8px; }
-        /* Çoklu medya seçim önizleme */
-        .multi-media-preview {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding: 4px 0;
-            scrollbar-width: none;
-        }
-        .multi-media-preview::-webkit-scrollbar { display: none; }
-        .multi-media-thumb {
-            position: relative;
-            flex: 0 0 90px;
-            height: 90px;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #000;
-        }
-        .multi-media-thumb img,
-        .multi-media-thumb video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .multi-media-thumb .remove-btn {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 22px;
-            height: 22px;
-            background: rgba(0,0,0,0.65);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 10px;
-            cursor: pointer;
-            z-index: 2;
-        }
-        .multi-media-thumb .order-badge {
-            position: absolute;
-            bottom: 4px;
-            left: 4px;
-            width: 20px;
-            height: 20px;
-            background: rgba(0,230,118,0.85);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 10px;
-            font-weight: 800;
-        }
-        .add-more-thumb {
-            flex: 0 0 90px;
-            height: 90px;
-            border-radius: 12px;
-            border: 2px dashed rgba(0,230,118,0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #00e676;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            gap: 4px;
-            background: rgba(0,230,118,0.05);
-        }
         /* Video poster */
         .video-poster {
             position: relative;
@@ -2702,405 +2710,6 @@
             color: #94a3b8;
             text-align: center;
             margin-top: 12px;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════
-         * 🎨 AGROLINK UI v14 — ULTRA MODERN PREMIUM REDESIGN
-         * Siyah/Koyu + Elektrik Yeşil + Glassmorphism + Premium Hareketler
-         * ═══════════════════════════════════════════════════════════════ */
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
-
-        :root {
-            --agro-green: #00e676;
-            --agro-green-dark: #00c853;
-            --agro-neon: #69ff47;
-            --agro-teal: #1de9b6;
-            --premium-bg: #050d15;
-            --premium-card: #0a1628;
-            --premium-card-2: #0e1f38;
-            --premium-border: rgba(0,230,118,0.12);
-            --premium-border-hover: rgba(0,230,118,0.35);
-            --premium-glow: 0 0 30px rgba(0,230,118,0.15);
-            --premium-glow-strong: 0 0 60px rgba(0,230,118,0.3);
-            --grain-opacity: 0.025;
-        }
-
-        /* === AUTH SCREEN PREMIUM === */
-        .auth-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(0,230,118,0.18) 0%, transparent 60%),
-                        radial-gradient(ellipse 80% 60% at 100% 100%, rgba(0,200,255,0.08) 0%, transparent 50%),
-                        linear-gradient(160deg, #020810 0%, #050d15 40%, #060e1c 100%);
-            overflow-y: auto;
-        }
-        .auth-overlay::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.4;
-        }
-
-        /* Auth Card */
-        .auth-overlay > div > div {
-            background: rgba(10,22,40,0.85) !important;
-            border: 1px solid rgba(0,230,118,0.15) !important;
-            box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,230,118,0.08), inset 0 1px 0 rgba(255,255,255,0.05) !important;
-            backdrop-filter: blur(40px) saturate(150%) !important;
-            -webkit-backdrop-filter: blur(40px) saturate(150%) !important;
-            color: #e8f5e9 !important;
-            position: relative;
-            z-index: 1;
-        }
-        .auth-overlay h1.text-emerald-500 {
-            background: linear-gradient(135deg, #00e676, #1de9b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-family: 'Syne', sans-serif !important;
-            letter-spacing: -1px;
-        }
-        .auth-overlay input {
-            background: rgba(255,255,255,0.05) !important;
-            border: 1px solid rgba(0,230,118,0.18) !important;
-            color: #e8f5e9 !important;
-        }
-        .auth-overlay input::placeholder { color: rgba(255,255,255,0.3) !important; }
-        .auth-overlay input:focus {
-            background: rgba(0,230,118,0.06) !important;
-            border-color: rgba(0,230,118,0.5) !important;
-            box-shadow: 0 0 0 3px rgba(0,230,118,0.1), 0 0 20px rgba(0,230,118,0.1) !important;
-        }
-        .auth-overlay label, .auth-overlay p, .auth-overlay span { color: rgba(232,245,233,0.7) !important; }
-        .auth-overlay select {
-            background: rgba(255,255,255,0.05) !important;
-            border: 1px solid rgba(0,230,118,0.18) !important;
-            color: #e8f5e9 !important;
-        }
-        .auth-overlay select option { background: #0a1628; color: #e8f5e9; }
-
-        /* Auth buttons */
-        .auth-overlay button.btn-agro,
-        .auth-overlay .btn-agro {
-            background: linear-gradient(135deg, #00e676 0%, #1de9b6 100%) !important;
-            color: #020810 !important;
-            font-weight: 800 !important;
-            box-shadow: 0 8px 32px rgba(0,230,118,0.3), 0 2px 8px rgba(0,0,0,0.2) !important;
-            border: none !important;
-            letter-spacing: 0.3px;
-            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1) !important;
-        }
-        .auth-overlay button.btn-agro:hover,
-        .auth-overlay .btn-agro:hover {
-            transform: translateY(-2px) scale(1.01) !important;
-            box-shadow: 0 16px 48px rgba(0,230,118,0.4), 0 4px 16px rgba(0,0,0,0.3) !important;
-        }
-        .auth-overlay button.btn-agro:active { transform: scale(0.97) !important; }
-
-        /* Register step circles premium */
-        .auth-overlay .bg-emerald-500 { background: linear-gradient(135deg, #00e676, #1de9b6) !important; }
-        .auth-overlay .bg-slate-100 { background: rgba(255,255,255,0.06) !important; }
-        .auth-overlay .bg-slate-100 span { color: rgba(255,255,255,0.4) !important; }
-        .auth-overlay .text-emerald-600 { color: #00e676 !important; }
-        .auth-overlay .text-slate-500 { color: rgba(255,255,255,0.4) !important; }
-        .auth-overlay .text-slate-400 { color: rgba(255,255,255,0.35) !important; }
-        .auth-overlay .text-slate-700, .auth-overlay .text-slate-800 { color: #e8f5e9 !important; }
-        .auth-overlay .text-slate-600 { color: rgba(232,245,233,0.65) !important; }
-        .auth-overlay .w-0\.5, .auth-overlay .bg-emerald-400 { background: rgba(0,230,118,0.5) !important; }
-        .auth-overlay .bg-slate-200 { background: rgba(255,255,255,0.08) !important; }
-
-        /* Avatar upload area */
-        .auth-overlay .border-dashed { border-color: rgba(0,230,118,0.3) !important; }
-        .auth-overlay .bg-slate-100.rounded-full { background: rgba(0,230,118,0.06) !important; }
-        .auth-overlay .text-emerald-400 { color: #00e676 !important; }
-        .auth-overlay .bg-emerald-500.rounded-full { background: linear-gradient(135deg, #00e676, #1de9b6) !important; }
-
-        /* Auth back button */
-        .auth-overlay button.text-slate-600 { color: rgba(255,255,255,0.5) !important; }
-        .auth-overlay button.text-slate-600:hover { color: #00e676 !important; }
-
-        /* Logo pulse animation in auth */
-        .auth-overlay .border-emerald-500 { border-color: rgba(0,230,118,0.5) !important; }
-        .auth-overlay .shadow-emerald-200 { box-shadow: 0 0 0 4px rgba(0,230,118,0.12), 0 8px 32px rgba(0,230,118,0.2) !important; }
-
-        /* ─── Floating particles in auth background ─── */
-        .auth-overlay::after {
-            content: '';
-            position: fixed;
-            width: 300px; height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0,230,118,0.06) 0%, transparent 70%);
-            top: -100px; right: -50px;
-            animation: floatOrb 8s ease-in-out infinite;
-            pointer-events: none;
-        }
-        @keyframes floatOrb {
-            0%, 100% { transform: translate(0,0) scale(1); }
-            33% { transform: translate(-30px,20px) scale(1.1); }
-            66% { transform: translate(20px,-30px) scale(0.9); }
-        }
-
-        /* ═══ MAIN APP PREMIUM HEADER ═══ */
-        .glass {
-            background: rgba(5,13,21,0.88) !important;
-            border-bottom: 1px solid rgba(0,230,118,0.1) !important;
-            backdrop-filter: blur(24px) saturate(180%) !important;
-        }
-        .dark-theme .glass {
-            background: rgba(3,8,14,0.92) !important;
-        }
-        header h1 {
-            font-family: 'Syne', sans-serif !important;
-            background: linear-gradient(135deg, #00e676, #1de9b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-        }
-
-        /* ═══ FEED CARDS PREMIUM ═══ */
-        .post-card-modern {
-            background: var(--bg-card) !important;
-            border: 1px solid rgba(0,230,118,0.07) !important;
-            border-radius: 24px !important;
-            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-            position: relative;
-            overflow: hidden;
-        }
-        .post-card-modern::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 24px;
-            background: linear-gradient(135deg, rgba(0,230,118,0.03) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-        .post-card-modern:hover {
-            border-color: rgba(0,230,118,0.2) !important;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,230,118,0.1), var(--premium-glow) !important;
-            transform: translateY(-2px);
-        }
-        .post-card-modern:hover::before { opacity: 1; }
-
-        /* ═══ BOTTOM NAV PREMIUM ═══ */
-        nav.glass.fixed.bottom-0,
-        .fixed.bottom-0 nav,
-        footer.glass {
-            background: rgba(5,13,21,0.95) !important;
-            border-top: 1px solid rgba(0,230,118,0.1) !important;
-        }
-
-        /* ═══ BUTTONS GLOBAL ═══ */
-        .btn-agro {
-            background: linear-gradient(135deg, #00e676 0%, #1de9b6 100%) !important;
-            color: #020810 !important;
-            font-weight: 800 !important;
-            letter-spacing: 0.2px;
-            box-shadow: 0 4px 20px rgba(0,230,118,0.25) !important;
-            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1) !important;
-        }
-        .btn-agro:hover {
-            box-shadow: 0 8px 32px rgba(0,230,118,0.4) !important;
-            transform: translateY(-1px);
-        }
-        .btn-agro:active { transform: scale(0.97) !important; }
-
-        /* ═══ LIKE / ACTION BUTTON GLOW ═══ */
-        button:has(.fa-heart.text-red-500), 
-        .text-red-500 {
-            filter: drop-shadow(0 0 4px rgba(255,80,80,0.4));
-        }
-
-        /* ═══ SEARCH BAR PREMIUM ═══ */
-        input[placeholder*="ara"] {
-            background: rgba(255,255,255,0.04) !important;
-            border: 1px solid rgba(0,230,118,0.12) !important;
-            transition: all 0.25s ease !important;
-        }
-        input[placeholder*="ara"]:focus {
-            background: rgba(0,230,118,0.05) !important;
-            border-color: rgba(0,230,118,0.4) !important;
-            box-shadow: 0 0 0 3px rgba(0,230,118,0.08), 0 0 24px rgba(0,230,118,0.08) !important;
-        }
-
-        /* ═══ SEARCH RESULTS PREMIUM ═══ */
-        .search-result-item {
-            transition: all 0.2s ease;
-            border-radius: 14px;
-            padding: 10px 12px;
-            cursor: pointer;
-            border: 1px solid transparent;
-        }
-        .search-result-item:hover {
-            background: rgba(0,230,118,0.06) !important;
-            border-color: rgba(0,230,118,0.15);
-        }
-        /* Profile URL shortcut badge */
-        .profile-url-shortcut {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(0,230,118,0.08), rgba(29,233,182,0.05));
-            border: 1px solid rgba(0,230,118,0.2);
-            cursor: pointer;
-            transition: all 0.25s ease;
-            animation: slideInResult 0.2s ease;
-        }
-        .profile-url-shortcut:hover {
-            background: linear-gradient(135deg, rgba(0,230,118,0.15), rgba(29,233,182,0.08));
-            border-color: rgba(0,230,118,0.4);
-            box-shadow: 0 4px 16px rgba(0,230,118,0.15);
-            transform: translateY(-1px);
-        }
-        .profile-url-shortcut .url-icon {
-            width: 36px; height: 36px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #00e676, #1de9b6);
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-        .profile-url-shortcut .url-text { font-size: 12px; color: rgba(255,255,255,0.5); }
-        .profile-url-shortcut .url-link { font-size: 13px; font-weight: 700; color: #00e676; }
-        @keyframes slideInResult {
-            from { opacity: 0; transform: translateY(-4px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ═══ AGRO CARD PREMIUM ═══ */
-        .agro-card {
-            background: rgba(10,22,40,0.95) !important;
-            border: 1px solid rgba(0,230,118,0.1) !important;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
-        }
-
-        /* ═══ PROFILE PAGE ═══ */
-        .profile-cover-glow {
-            position: relative;
-        }
-        .profile-cover-glow::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0; height: 60px;
-            background: linear-gradient(to bottom, transparent, var(--bg-main));
-            pointer-events: none;
-        }
-
-        /* ═══ VERIFIED BADGE GLOW ═══ */
-        [title*="Doğrulanmış"], [title*="verified"] {
-            filter: drop-shadow(0 0 4px rgba(0,230,118,0.5));
-        }
-
-        /* ═══ STORY RING PREMIUM ═══ */
-        .story-ring {
-            background: linear-gradient(135deg, #00e676, #1de9b6, #00b0ff) !important;
-        }
-
-        /* ═══ NOTIFICATION DOT ═══ */
-        .bg-red-500 { 
-            background: linear-gradient(135deg, #ff4444, #ff6b6b) !important;
-            box-shadow: 0 0 8px rgba(255,68,68,0.5) !important;
-        }
-
-        /* ═══ DARK THEME PREMIUM OVERRIDES ═══ */
-        .dark-theme {
-            --bg-main: #030810;
-            --bg-card: #080e1c;
-            --border: rgba(0,230,118,0.08);
-            --input-bg: rgba(255,255,255,0.04);
-        }
-        .dark-theme .agro-card { background: rgba(8,14,28,0.95) !important; }
-        .dark-theme .post-card-modern { background: rgba(8,14,28,0.95) !important; }
-
-        /* Light theme tweaks */
-        :not(.dark-theme) .post-card-modern {
-            background: #fff !important;
-            border-color: rgba(0,0,0,0.06) !important;
-        }
-        :not(.dark-theme) .post-card-modern:hover {
-            border-color: rgba(0,200,100,0.3) !important;
-            box-shadow: 0 8px 32px rgba(0,200,100,0.1) !important;
-        }
-
-        /* ═══ LOADING SCREEN PREMIUM ═══ */
-        .page-loading-overlay {
-            background: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(0,230,118,0.12) 0%, transparent 50%),
-                        linear-gradient(160deg, #020810 0%, #050d15 100%) !important;
-        }
-        .loading-logo {
-            box-shadow: 0 0 0 8px rgba(0,230,118,0.08), 0 0 0 16px rgba(0,230,118,0.04), 0 20px 60px rgba(0,230,118,0.3) !important;
-        }
-        .loading-text h2 {
-            background: linear-gradient(90deg, #00e676, #1de9b6, #00b0ff, #00e676) !important;
-            background-size: 300% 100% !important;
-        }
-        .loading-dots span { background: #00e676 !important; }
-        .loading-progress-bar { background: linear-gradient(90deg, #00e676, #1de9b6) !important; }
-
-        /* ═══ TAB ACTIVE PREMIUM ═══ */
-        .text-emerald-500 { color: #00e676 !important; }
-        .bg-emerald-500 { background: #00e676 !important; }
-        .border-emerald-500 { border-color: #00e676 !important; }
-        .ring-emerald-500 { --tw-ring-color: rgba(0,230,118,0.4) !important; }
-        .shadow-emerald-200 { box-shadow: 0 8px 24px rgba(0,230,118,0.25) !important; }
-        .focus\:ring-emerald-500:focus { --tw-ring-color: rgba(0,230,118,0.3) !important; }
-        .hover\:bg-emerald-100:hover { background: rgba(0,230,118,0.08) !important; }
-        .bg-emerald-100 { background: rgba(0,230,118,0.08) !important; }
-        .text-emerald-600 { color: #00c853 !important; }
-        .bg-emerald-50 { background: rgba(0,230,118,0.05) !important; }
-
-        /* ═══ MODAL PREMIUM ═══ */
-        .fixed.inset-0[x-show] {
-            backdrop-filter: blur(16px);
-        }
-
-        /* ═══ ENGAGEMENT LEADERBOARD PREMIUM ═══ */
-        .engagement-leaderboard {
-            background: linear-gradient(135deg, rgba(0,230,118,0.06) 0%, rgba(29,233,182,0.03) 100%) !important;
-            border: 1px solid rgba(0,230,118,0.12) !important;
-            border-radius: 20px !important;
-            padding: 16px !important;
-        }
-        .engagement-leaderboard-title {
-            background: transparent !important;
-            color: #00e676 !important;
-            font-family: 'Syne', sans-serif;
-            letter-spacing: -0.3px;
-        }
-        .engagement-user-item {
-            background: rgba(255,255,255,0.03) !important;
-            border: 1px solid rgba(0,230,118,0.06) !important;
-            border-radius: 14px !important;
-            transition: all 0.25s ease !important;
-        }
-        .engagement-user-item:hover {
-            background: rgba(0,230,118,0.06) !important;
-            border-color: rgba(0,230,118,0.18) !important;
-        }
-
-        /* ═══ FONT OVERRIDE FOR PREMIUM ═══ */
-        h1, h2 { font-family: 'Syne', sans-serif !important; }
-        body { font-family: 'DM Sans', 'Plus Jakarta Sans', sans-serif !important; }
-        
-        /* ═══ SEND/POST BUTTON ═══ */
-        button[class*="bg-emerald"][class*="rounded"] {
-            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1) !important;
-        }
-        
-        /* ═══ SMOOTH ENTRANCE ANIMATIONS ═══ */
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .post-card-modern {
-            animation: fadeSlideUp 0.4s ease both;
         }
     </style>
 </head>
@@ -4692,7 +4301,7 @@
     </template>
 
     <!-- 2. ANA UYGULAMA -->
-    <div x-show="isLoggedIn" x-cloak>
+    <div x-show="isLoggedIn" x-cloak
         
         <!-- ÜST BAR -->
         <header class="glass sticky top-0 z-50 flex justify-between items-center" style="padding: 12px 20px; border-bottom: 1px solid var(--glass-border, rgba(0,0,0,0.06));">
@@ -4800,24 +4409,10 @@
                     <input type="text" x-model="searchQuery" @input="handleSearch" @focus="showSearchResults = true" @blur="setTimeout(() => showSearchResults = false, 200)" placeholder="Çiftçi, ürün veya #hashtag ara..." class="w-full bg-[var(--bg-card)] border border-[var(--border)] p-4 pl-12 rounded-2xl shadow-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                 </div>
                 <!-- Arama Sonuçları -->
-                <div x-show="showSearchResults && (searchResults.length > 0 || hashtagResults.length > 0 || searchQuery.trim().length > 0)" class="absolute top-16 w-full z-40 agro-card shadow-xl p-2 space-y-1 max-h-80 overflow-y-auto">
-                    
-                    <!-- 🔗 PROFİL URL KISAYOLU — arama kutusuna yazılan isim/kullanıcı adı eşleşince en üstte göster -->
-                    <template x-if="searchResults.length > 0 && searchResults[0]">
-                        <div class="profile-url-shortcut mb-1"
-                             @click="copyToClipboard(window.location.origin + '/u/' + searchResults[0].username); showToast('Profil linki kopyalandı! 🔗')">
-                            <div class="url-icon"><i class="fas fa-link text-[#020810] text-sm"></i></div>
-                            <div class="flex-1 min-w-0">
-                                <div class="url-link truncate" x-text="'sehitumitkestitarimmtal.com/u/' + searchResults[0].username"></div>
-                                <div class="url-text">Profil linkini kopyala · WhatsApp/Instagram için hazır</div>
-                            </div>
-                            <i class="fas fa-copy text-xs" style="color:rgba(0,230,118,0.5)"></i>
-                        </div>
-                    </template>
-                    
+                <div x-show="showSearchResults && (searchResults.length > 0 || hashtagResults.length > 0)" class="absolute top-16 w-full z-40 agro-card shadow-xl p-2 space-y-1 max-h-80 overflow-y-auto">
                     <!-- Hashtag Sonuçları -->
                     <template x-for="tag in hashtagResults" :key="tag.id || tag.tag">
-                        <div @click="searchByHashtag(tag.tag)" class="search-result-item flex items-center gap-3">
+                        <div @click="searchByHashtag(tag.tag)" class="flex items-center gap-3 p-3 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 rounded-xl cursor-pointer">
                             <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
                                 <i class="fas fa-hashtag text-emerald-600"></i>
                             </div>
@@ -4829,15 +4424,11 @@
                     </template>
                     <!-- Kullanıcı Sonuçları -->
                     <template x-for="res in searchResults" :key="res.id">
-                        <div @click="viewProfile(res.id)" class="search-result-item flex items-center gap-3">
+                        <div @click="viewProfile(res.id)" class="flex items-center gap-3 p-3 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 rounded-xl cursor-pointer">
                             <img :src="res.profilePic || 'agro_pp.jpg'" class="w-10 h-10 rounded-full object-cover flex-shrink-0">
-                            <div class="flex-1 min-w-0">
+                            <div>
                                 <p class="text-sm font-bold" x-text="res.name"></p>
                                 <p class="text-[10px] text-slate-500" x-text="'@'+res.username"></p>
-                            </div>
-                            <div class="text-[10px] px-2 py-0.5 rounded-full" 
-                                 style="background:rgba(0,230,118,0.1);color:#00e676;border:1px solid rgba(0,230,118,0.2)">
-                                <i class="fas fa-arrow-right text-[8px]"></i>
                             </div>
                         </div>
                     </template>
@@ -4896,16 +4487,6 @@
                                 title="Medya Modu">
                             <i class="fas fa-th-large text-sm"></i>
                         </button>
-                    </div>
-                </div>
-
-                <!-- ===== İLK YÜKLENİYOR SPİNNER ===== -->
-                <div x-show="loadingMore && feed.length === 0" 
-                     class="fixed inset-0 flex items-center justify-center z-40 pointer-events-none"
-                     style="top: 0; left: 0; width: 100%; height: 100%;">
-                    <div class="flex flex-col items-center gap-3">
-                        <div style="width:56px;height:56px;border:4px solid rgba(0,230,118,0.2);border-top-color:#00e676;border-radius:50%;animation:spin 0.7s linear infinite;"></div>
-                        <span style="color:#00e676;font-size:13px;font-weight:600;opacity:0.8;">Gönderiler yükleniyor...</span>
                     </div>
                 </div>
 
@@ -4972,10 +4553,10 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <!-- Takip Et Butonu - Sadece takip edilmeyenlerde göster -->
-                                <template x-if="post.userId !== user.id && !isFollowing(post.userId)">
+                                <!-- Takip Et Butonu - Zaten takip ediliyorsa veya kendi postuysa gösterme -->
+                                <template x-if="post.userId !== user.id && !post.isFollowing && !isFollowing(post.userId)">
                                     <button 
-                                        @click.stop="toggleFollow(post.userId)" 
+                                        @click.stop="toggleFollow(post.userId); post.isFollowing = true;" 
                                         class="text-xs font-bold px-4 py-2 rounded-full transition-all duration-300 bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600 shadow-lg shadow-emerald-200 hover:scale-105 active:scale-95">
                                         <i class="fas fa-user-plus mr-1" style="font-size:10px;"></i>
                                         <span>Takip Et</span>
@@ -5014,141 +4595,234 @@
                             </div>
                         </template>
 
-                        <!-- Medya (Resim veya Video) - TikTok Tarzı Kaydırma -->
-                        <template x-if="post.mediaUrl && !post.isPoll">
-                            <div class="px-2 pb-2 relative group" @dblclick="doubleTapLike(post)">
+                        <!-- Medya: Tek medya düz render, çoklu medya carousel -->
+                        <template x-if="(post.mediaUrl || (post.mediaUrls && post.mediaUrls.length > 0)) && !post.isPoll">
+                            <div class="px-2 pb-2 relative group" @dblclick="doubleTapLike(post)"
+                                 x-data="{
+                                    cIdx: 0,
+                                    get mItems() {
+                                        const arr = post.mediaUrls;
+                                        if (Array.isArray(arr) && arr.length > 0) return arr;
+                                        if (post.mediaUrl) return [{ url: post.mediaUrl, type: post.mediaType || 'image' }];
+                                        return [];
+                                    },
+                                    getUrl(item) { return typeof item === 'string' ? item : (item.url || item.mediaUrl || ''); },
+                                    getType(item) { return typeof item === 'string' ? 'image' : (item.type || item.mediaType || 'image'); },
+                                    getAspect(item) {
+                                        const w = item.width, h = item.height;
+                                        if (w && h) { const r = h/w; return r > 1.4 ? 'aspect-[4/5]' : r < 0.6 ? 'aspect-[16/9]' : 'aspect-[4/5]'; }
+                                        return (item.type || post.mediaType) === 'video' ? 'aspect-[9/16]' : 'aspect-[4/5]';
+                                    },
+                                    touchStartX: 0,
+                                    onTouchStart(e) { this.touchStartX = e.touches[0].clientX; },
+                                    onTouchEnd(e) {
+                                        const dx = e.changedTouches[0].clientX - this.touchStartX;
+                                        if (Math.abs(dx) > 40) { dx < 0 ? (this.cIdx < this.mItems.length-1 ? this.cIdx++ : null) : (this.cIdx > 0 ? this.cIdx-- : null); }
+                                    }
+                                 }">
                                 <!-- Kalp Atma Animasyonu -->
-                                <div x-show="showHeartAnimation === post.id" 
-                                     class="heart-animation"
-                                     :class="showHeartAnimation === post.id ? 'animate' : ''">
+                                <div x-show="showHeartAnimation === post.id" class="heart-animation" :class="showHeartAnimation === post.id ? 'animate' : ''">
                                     <i class="fas fa-heart"></i>
                                 </div>
-                                
-                                <!-- Carousel (çoklu) veya tekil medya -->
-                                <div x-data="{
-                                    ci: 0,
-                                    get allMedia() {
-                                        const urls = (post.mediaUrls && post.mediaUrls.length > 1) ? post.mediaUrls : (post.mediaUrl ? [post.mediaUrl] : []);
-                                        const types = post.mediaTypes || [];
-                                        return urls.map((u,i) => ({ url: u, type: types[i] || post.mediaType || 'image' }));
-                                    },
-                                    startX: 0,
-                                    onTouchStart(e) { this.startX = e.touches[0].clientX; },
-                                    onTouchEnd(e) {
-                                        const dx = e.changedTouches[0].clientX - this.startX;
-                                        const n = this.allMedia.length;
-                                        if (dx < -40 && this.ci < n-1) this.ci++;
-                                        else if (dx > 40 && this.ci > 0) this.ci--;
-                                    }
-                                }">
-                                    <!-- TEKİL GÖRSEL -->
-                                    <template x-if="allMedia.length <= 1 && post.mediaType === 'image'">
-                                        <img :src="post.mediaUrl"
-                                             @click="openTikTokScroll(post)"
-                                             class="w-full rounded-[1.2rem] cursor-pointer bg-black"
-                                             style="max-height: 600px; min-height: 180px; object-fit: contain; display: block;"
-                                             loading="lazy"
-                                             @error="$el.style.display='none'">
-                                    </template>
-                                    <!-- TEKİL VİDEO -->
-                                    <template x-if="allMedia.length <= 1 && post.mediaType === 'video'">
-                                        <div class="relative video-hover-container rounded-[1.2rem] overflow-hidden bg-black"
-                                             style="max-height: 70vh;"
-                                             x-init="
-                                                const el = $el;
-                                                const getVideo = () => el.querySelector('video');
-                                                const playIcon = el.querySelector('.feed-play-icon');
-                                                const observer = new IntersectionObserver((entries) => {
-                                                    entries.forEach(entry => {
-                                                        const v = getVideo();
-                                                        if (!v) return;
-                                                        if (entry.isIntersecting) {
-                                                            if (!v._agroInitialized && post.mediaUrl) {
-                                                                const doInit = () => initAgroHLS(v, post.mediaUrl);
-                                                                if (window.requestIdleCallback) requestIdleCallback(doInit, {timeout: 500});
-                                                                else setTimeout(doInit, 0);
-                                                            }
-                                                            v.muted = globalMuted;
-                                                            v.play().then(() => { if (playIcon) playIcon.style.display = 'none'; }).catch(() => { v.muted = true; v.play().then(() => { if (playIcon) playIcon.style.display = 'none'; }).catch(() => {}); });
-                                                        } else {
-                                                            v.pause();
-                                                            if (playIcon) playIcon.style.display = 'flex';
-                                                        }
-                                                    });
-                                                }, { threshold: 0.4 });
-                                                observer.observe(el);
-                                                const muteHandler = (e) => { const v = getVideo(); if (v && !v.paused) v.muted = e.detail.muted; };
-                                                window.addEventListener('agrolink:mutechange', muteHandler);
-                                                el._cleanup = () => { observer.disconnect(); window.removeEventListener('agrolink:mutechange', muteHandler); const v = getVideo(); if (v) destroyAgroHLS(v); };
-                                             ">
-                                            <div class="feed-video-spinner absolute inset-0 flex items-center justify-center z-10 pointer-events-none" style="display:flex!important;">
-                                                <div style="width:44px;height:44px;border:3px solid rgba(255,255,255,0.25);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;"></div>
+
+                                <!-- TEK MEDYA: Carousel olmadan düz render -->
+                                <template x-if="mItems.length === 1">
+                                    <div>
+                                        <template x-if="getType(mItems[0]) !== 'video'">
+                                            <div :class="getAspect(mItems[0])" class="w-full overflow-hidden bg-black rounded-2xl relative cursor-pointer" @click="openTikTokScroll(post)">
+                                                <img :src="getUrl(mItems[0])" class="absolute inset-0 w-full h-full object-contain" loading="lazy" @error="$el.style.display='none'">
                                             </div>
-                                            <video
-                                                x-init="
-                                                    const spinner = $el.parentElement.querySelector('.feed-video-spinner');
-                                                    $el.addEventListener('canplay', () => { if(spinner) spinner.style.display='none'; });
-                                                    $el.addEventListener('waiting', () => { if(spinner) spinner.style.display='flex'; });
-                                                    $el.addEventListener('playing', () => { if(spinner) spinner.style.display='none'; });
-                                                "
-                                                class="w-full"
-                                                style="max-height: 70vh; object-fit: contain; display: block;"
-                                                preload="none" playsinline loop muted
-                                                :poster="post.thumbnail || ''"
-                                                @click="openTikTokScroll(post)"
-                                            ></video>
-                                            <button @click.stop="
-                                                globalMuted = !globalMuted;
-                                                window.dispatchEvent(new CustomEvent('agrolink:mutechange', {detail:{muted:globalMuted}}));
-                                                const v = $el.parentElement.querySelector('video');
-                                                if (v) v.muted = globalMuted;
-                                                const ind = $el.parentElement.querySelector('.feed-sound-indicator');
-                                                if (ind) { ind.style.opacity='1'; setTimeout(()=>ind.style.opacity='0', 900); }
-                                            " class="absolute bottom-3 right-3 w-10 h-10 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white z-20 transition-transform active:scale-90">
-                                                <i class="fas text-sm" :class="globalMuted ? 'fa-volume-xmark' : 'fa-volume-high'"></i>
-                                            </button>
-                                            <div class="feed-sound-indicator absolute inset-0 flex items-center justify-center pointer-events-none" style="opacity:0; transition: opacity 0.15s ease; z-index:15;">
-                                                <div class="bg-black/65 rounded-full w-20 h-20 flex items-center justify-center">
-                                                    <i class="fas text-white text-3xl" :class="globalMuted ? 'fa-volume-xmark' : 'fa-volume-high'"></i>
+                                        </template>
+                                        <template x-if="getType(mItems[0]) === 'video'">
+                                            <div :class="getAspect(mItems[0])" class="w-full overflow-hidden bg-black rounded-2xl relative video-hover-container"
+                                                 x-init="
+                                                    const el = $el;
+                                                    const getV = () => el.querySelector('video');
+                                                    let hlsInited = false;
+                                                    const sp = () => el.querySelector('.video-loading-overlay');
+                                                    const observer = new IntersectionObserver((entries) => {
+                                                        entries.forEach(entry => {
+                                                            const v = getV(); if (!v) return;
+                                                            if (entry.isIntersecting) {
+                                                                if (!hlsInited) { hlsInited = true; initAgroHLS(v, getUrl(mItems[0])); }
+                                                                v.muted = globalMuted;
+                                                                const s = sp(); if(s) s.classList.remove('hidden');
+                                                                v.addEventListener('canplay', () => { const s=sp(); if(s) s.classList.add('hidden'); }, {once:true});
+                                                                v.play().catch(() => { v.muted = true; v.play().catch(()=>{}); });
+                                                            } else { const v2=getV(); if(v2) v2.pause(); }
+                                                        });
+                                                    }, { threshold: 0.4 });
+                                                    observer.observe(el);
+                                                    window.addEventListener('agrolink:mutechange', (e) => { const v=getV(); if(v&&!v.paused) v.muted=e.detail.muted; });
+                                                 ">
+                                                <div class="video-loading-overlay"><div class="video-spinner"></div></div>
+                                                <video class="absolute inset-0 w-full h-full object-contain"
+                                                       preload="none" playsinline loop muted :poster="post.thumbnail || ''"
+                                                       @click="openTikTokScroll(post)"></video>
+                                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none" style="z-index:5;">
+                                                    <div class="bg-black/50 rounded-full w-16 h-16 flex items-center justify-center">
+                                                        <i class="fas fa-play text-white text-xl ml-1"></i>
+                                                    </div>
                                                 </div>
+                                                <button @click.stop="
+                                                    globalMuted = !globalMuted;
+                                                    window.dispatchEvent(new CustomEvent('agrolink:mutechange', {detail:{muted:globalMuted}}));
+                                                    const v = $el.parentElement.querySelector('video');
+                                                    if (v) v.muted = globalMuted;
+                                                " class="absolute bottom-3 right-3 w-10 h-10 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white z-20 transition-transform active:scale-90">
+                                                    <i class="fas text-sm" :class="globalMuted ? 'fa-volume-xmark' : 'fa-volume-high'"></i>
+                                                </button>
                                             </div>
-                                            <div class="feed-play-icon absolute inset-0 items-center justify-center pointer-events-none" style="display:flex; z-index:5;">
-                                                <i class="fas fa-play text-white text-4xl opacity-80 drop-shadow-lg"></i>
-                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+
+                                <!-- ÇOKLU MEDYA: Gerçek carousel -->
+                                <template x-if="mItems.length > 1">
+                                    <div class="media-carousel" @touchstart="onTouchStart($event)" @touchend="onTouchEnd($event)">
+                                        <div class="media-carousel-track" :style="`transform: translateX(-${cIdx * 100}%)`">
+                                            <template x-for="(item, iIdx) in mItems" :key="iIdx">
+                                                <div class="media-carousel-slide">
+                                                    <template x-if="getType(item) !== 'video'">
+                                                        <div :class="getAspect(item)" class="w-full overflow-hidden bg-black relative">
+                                                            <img :src="getUrl(item)" @click="openTikTokScroll(post)"
+                                                                 class="absolute inset-0 w-full h-full object-contain cursor-pointer"
+                                                                 loading="lazy" @error="$el.style.display='none'">
+                                                        </div>
+                                                    </template>
+                                                    <template x-if="getType(item) === 'video'">
+                                                        <div :class="getAspect(item)" class="w-full overflow-hidden bg-black relative video-hover-container"
+                                                             x-init="
+                                                                const el = $el;
+                                                                const getV = () => el.querySelector('video');
+                                                                let hlsInited = false;
+                                                                const sp = () => el.querySelector('.video-loading-overlay');
+                                                                const observer = new IntersectionObserver((entries) => {
+                                                                    entries.forEach(entry => {
+                                                                        const v = getV(); if (!v) return;
+                                                                        if (entry.isIntersecting) {
+                                                                            if (!hlsInited) { hlsInited = true; initAgroHLS(v, getUrl(item)); }
+                                                                            v.muted = globalMuted;
+                                                                            const s = sp(); if(s) s.classList.remove('hidden');
+                                                                            v.addEventListener('canplay', () => { const s=sp(); if(s) s.classList.add('hidden'); }, {once:true});
+                                                                            v.play().catch(() => { v.muted = true; v.play().catch(()=>{}); });
+                                                                        } else { const v2=getV(); if(v2) v2.pause(); }
+                                                                    });
+                                                                }, { threshold: 0.4 });
+                                                                observer.observe(el);
+                                                                window.addEventListener('agrolink:mutechange', (e) => { const v=getV(); if(v&&!v.paused) v.muted=e.detail.muted; });
+                                                             ">
+                                                            <div class="video-loading-overlay"><div class="video-spinner"></div></div>
+                                                            <video class="absolute inset-0 w-full h-full object-contain"
+                                                                   preload="none" playsinline loop muted :poster="post.thumbnail || ''"
+                                                                   @click="openTikTokScroll(post)"></video>
+                                                            <button @click.stop="
+                                                                globalMuted = !globalMuted;
+                                                                window.dispatchEvent(new CustomEvent('agrolink:mutechange', {detail:{muted:globalMuted}}));
+                                                                const v = $el.parentElement.querySelector('video');
+                                                                if (v) v.muted = globalMuted;
+                                                            " class="absolute bottom-3 right-3 w-10 h-10 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white z-20 transition-transform active:scale-90">
+                                                                <i class="fas text-sm" :class="globalMuted ? 'fa-volume-xmark' : 'fa-volume-high'"></i>
+                                                            </button>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
                                         </div>
-                                    </template>
-                                    <!-- CAROUSEL (çoklu medya) -->
-                                    <template x-if="allMedia.length > 1">
-                                        <div class="post-carousel"
-                                             @touchstart="onTouchStart($event)"
-                                             @touchend="onTouchEnd($event)"
-                                             @click="openTikTokScroll(post)">
-                                            <div class="post-carousel-track" :style="`transform: translateX(-${ci*100}%)`">
-                                                <template x-for="(m, idx) in allMedia" :key="idx">
-                                                    <div class="post-carousel-slide">
-                                                        <template x-if="m.type === 'video'">
-                                                            <video :src="m.url" class="w-full" style="max-height:520px;object-fit:contain;" muted playsinline preload="none" :poster="post.thumbnail||''"></video>
-                                                        </template>
-                                                        <template x-if="m.type !== 'video'">
-                                                            <img :src="m.url" class="w-full" style="max-height:520px;object-fit:contain;" loading="lazy" @error="$el.style.display='none'">
-                                                        </template>
+                                        <!-- Carousel kontrolleri (sadece çoklu medyada) -->
+                                        <button class="carousel-nav-btn prev" @click.stop="cIdx > 0 ? cIdx-- : null" x-show="cIdx > 0"><i class="fas fa-chevron-left text-xs"></i></button>
+                                        <button class="carousel-nav-btn next" @click.stop="cIdx < mItems.length-1 ? cIdx++ : null" x-show="cIdx < mItems.length - 1"><i class="fas fa-chevron-right text-xs"></i></button>
+                                        <div class="carousel-count-badge" x-text="(cIdx+1)+'/'+mItems.length"></div>
+                                        <div class="carousel-dots">
+                                            <template x-for="(_, di) in mItems" :key="di">
+                                                <div class="carousel-dot" :class="di === cIdx ? 'active' : ''"></div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                                                <template x-if="getType(item) !== 'image'">
+                                                    <!-- Video: aspect ratio rezerv + lazy load + sadece pause (src silme) -->
+                                                    <div :class="getAspect(item)" class="w-full overflow-hidden bg-black relative video-hover-container"
+                                                         x-init="
+                                                            const el = $el;
+                                                            const getV = () => el.querySelector('video');
+                                                            const playIcon = el.querySelector('.feed-play-icon');
+                                                            let hlsInited = false;
+                                                            const sp = () => el.querySelector('.video-loading-overlay');
+                                                            const observer = new IntersectionObserver((entries) => {
+                                                                entries.forEach(entry => {
+                                                                    const v = getV();
+                                                                    if (!v) return;
+                                                                    if (entry.isIntersecting) {
+                                                                        if (!hlsInited) {
+                                                                            hlsInited = true;
+                                                                            initAgroHLS(v, getUrl(item));
+                                                                        }
+                                                                        v.muted = globalMuted;
+                                                                        const s = sp(); if(s) s.classList.remove('hidden');
+                                                                        v.addEventListener('canplay', () => { const s=sp(); if(s) s.classList.add('hidden'); }, {once:true});
+                                                                        v.addEventListener('playing', () => { const s=sp(); if(s) s.classList.add('hidden'); });
+                                                                        v.addEventListener('waiting', () => { const s=sp(); if(s) s.classList.remove('hidden'); });
+                                                                        v.play().catch(() => { v.muted = true; v.play().catch(()=>{}); });
+                                                                        if (playIcon) playIcon.style.display = 'none';
+                                                                    } else {
+                                                                        // Sadece PAUSE — src silme! Scroll geri gelince yeniden yüklenmez
+                                                                        const v2 = getV();
+                                                                        if (v2) { v2.pause(); }
+                                                                        if (playIcon) playIcon.style.display = 'flex';
+                                                                    }
+                                                                });
+                                                            }, { threshold: 0.4 });
+                                                            observer.observe(el);
+                                                            const muteH = (e) => { const v=getV(); if(v&&!v.paused) v.muted=e.detail.muted; };
+                                                            window.addEventListener('agrolink:mutechange', muteH);
+                                                            el._cleanup = () => { observer.disconnect(); window.removeEventListener('agrolink:mutechange', muteH); const v=getV(); if(v) destroyAgroHLS(v); };
+                                                         ">
+                                                        <!-- Video Loading Spinner -->
+                                                        <div class="video-loading-overlay">
+                                                            <div class="video-spinner"></div>
+                                                        </div>
+                                                        <video class="absolute inset-0 w-full h-full object-contain"
+                                                               preload="none" playsinline loop muted :poster="post.thumbnail || ''"
+                                                               @click="openTikTokScroll(post)"></video>
+                                                        <!-- Oynatma İkonu -->
+                                                        <div class="feed-play-icon absolute inset-0 items-center justify-center pointer-events-none" style="display:flex;z-index:5;">
+                                                            <div class="bg-black/50 rounded-full w-16 h-16 flex items-center justify-center">
+                                                                <i class="fas fa-play text-white text-xl ml-1"></i>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Ses Aç/Kapat -->
+                                                        <button @click.stop="
+                                                            globalMuted = !globalMuted;
+                                                            window.dispatchEvent(new CustomEvent('agrolink:mutechange', {detail:{muted:globalMuted}}));
+                                                            const v = $el.parentElement.querySelector('video');
+                                                            if (v) v.muted = globalMuted;
+                                                        " class="absolute bottom-3 right-3 w-10 h-10 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white z-20 transition-transform active:scale-90">
+                                                            <i class="fas text-sm" :class="globalMuted ? 'fa-volume-xmark' : 'fa-volume-high'"></i>
+                                                        </button>
                                                     </div>
                                                 </template>
                                             </div>
-                                            <!-- Sayaç -->
-                                            <div class="post-carousel-counter" x-text="`${ci+1} / ${allMedia.length}`"></div>
-                                            <!-- Ok butonları (dokunmatik dışı) -->
-                                            <button x-show="ci > 0" @click.stop="ci--" class="post-carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                                            <button x-show="ci < allMedia.length-1" @click.stop="ci++" class="post-carousel-btn next"><i class="fas fa-chevron-right"></i></button>
-                                            <!-- Noktalar -->
-                                            <div class="post-carousel-dots">
-                                                <template x-for="(m,i) in allMedia" :key="i">
-                                                    <div class="post-carousel-dot" :class="i===ci?'active':''"></div>
+                                        </template>
+                                    </div>
+                                    <!-- Carousel Nav (birden fazlaysa) -->
+                                    <template x-if="cLen > 1">
+                                        <div>
+                                            <button class="carousel-nav-btn prev" @click.stop="prev()" x-show="cIdx > 0"><i class="fas fa-chevron-left text-xs"></i></button>
+                                            <button class="carousel-nav-btn next" @click.stop="next()" x-show="cIdx < cLen - 1"><i class="fas fa-chevron-right text-xs"></i></button>
+                                            <div class="carousel-count-badge" x-text="(cIdx+1)+'/'+cLen"></div>
+                                            <div class="carousel-dots">
+                                                <template x-for="(_, di) in cItems" :key="di">
+                                                    <div class="carousel-dot" :class="di === cIdx ? 'active' : ''"></div>
                                                 </template>
                                             </div>
                                         </div>
                                     </template>
                                 </div>
+                            </div>
+                        </template>
 
                         <!-- Actions -->
                         <div class="px-4 py-3 flex items-center justify-between border-t border-[var(--border)]">
@@ -5270,8 +4944,7 @@
                 </template>
                 <!-- ===== END MEDİA MODU ===== -->
                 
-                <!-- Alt kısım - sonsuz kaydırma spinner -->
-                <div x-show="loadingMore && feed.length > 0" class="text-center p-4">
+                <div x-show="loadingMore" class="text-center p-4">
                     <i class="fas fa-circle-notch fa-spin text-emerald-500 text-2xl"></i>
                 </div>
                 
@@ -5659,8 +5332,11 @@
                     <div @click="profileTab = 'posts'" class="profile-tab" :class="profileTab === 'posts' ? 'active' : ''">
                         Gönderiler
                     </div>
-                    <div @click="profileTab = 'media'" class="profile-tab" :class="profileTab === 'media' ? 'active' : ''">
-                        Medya
+                    <div @click="profileTab = 'photos'" class="profile-tab" :class="profileTab === 'photos' ? 'active' : ''">
+                        Fotoğraf
+                    </div>
+                    <div @click="profileTab = 'videos'" class="profile-tab" :class="profileTab === 'videos' ? 'active' : ''">
+                        Video
                     </div>
                     <div @click="profileTab = 'saved'; loadSavedPosts()" class="profile-tab" :class="profileTab === 'saved' ? 'active' : ''">
                         Kaydedilenler
@@ -5696,14 +5372,46 @@
                                         <template x-if="(post.content||'').length > 200">
                                             <button @click="postExpanded = !postExpanded" class="text-emerald-500 text-xs font-bold mt-1 hover:text-emerald-600 transition" x-text="postExpanded ? '▲ Daha az göster' : '▼ Devamını göster'"></button>
                                         </template>
-                                        <template x-if="post.mediaUrl">
-                                            <div class="mt-3">
-                                                <template x-if="post.mediaType === 'video'">
-                                                    <video x-init="$nextTick(()=>initAgroHLS($el,post.mediaUrl))" class="rounded-2xl w-full max-h-80 object-cover" controls></video>
-                                                </template>
-                                                <template x-if="post.mediaType !== 'video'">
-                                                    <img :src="post.mediaUrl" @click="openFullScreen(post.mediaUrl, 'image')" class="rounded-2xl w-full max-h-80 object-cover cursor-pointer">
-                                                </template>
+                                        <template x-if="post.mediaUrl || (post.mediaUrls && post.mediaUrls.length > 0)">
+                                            <div class="mt-3"
+                                                 x-data="{
+                                                    cIdx: 0,
+                                                    get cItems() { if(post.mediaUrls&&post.mediaUrls.length>0) return post.mediaUrls; if(post.mediaUrl) return [{url:post.mediaUrl,type:post.mediaType||'image'}]; return []; },
+                                                    get cLen() { return this.cItems.length; },
+                                                    getUrl(item) { return typeof item==='string'?item:(item.url||item.mediaUrl||''); },
+                                                    getType(item) { return typeof item==='string'?'image':(item.type||item.mediaType||'image'); },
+                                                    touchSX: 0
+                                                 }">
+                                                <div class="media-carousel"
+                                                     @touchstart="touchSX=$event.touches[0].clientX"
+                                                     @touchend="const dx=$event.changedTouches[0].clientX-touchSX;if(Math.abs(dx)>40){dx<0?(cIdx<cLen-1?cIdx++:null):(cIdx>0?cIdx--:null)}">
+                                                    <div class="media-carousel-track" :style="`transform:translateX(-${cIdx*100}%)`">
+                                                        <template x-for="(item,ii) in cItems" :key="ii">
+                                                            <div class="media-carousel-slide">
+                                                                <template x-if="getType(item)==='video'">
+                                                                    <div class="relative" style="max-height:320px;overflow:hidden;">
+                                                                        <div class="video-loading-overlay"><div class="video-spinner"></div></div>
+                                                                        <video x-init="$nextTick(()=>{$el.addEventListener('canplay',()=>$el.parentElement.querySelector('.video-loading-overlay').classList.add('hidden'));initAgroHLS($el,getUrl(item));})"
+                                                                               class="w-full rounded-2xl max-h-80 object-cover" controls preload="none" playsinline></video>
+                                                                    </div>
+                                                                </template>
+                                                                <template x-if="getType(item)!=='video'">
+                                                                    <img :src="getUrl(item)" @click="openTikTokScroll(post)" class="w-full rounded-2xl max-h-80 object-cover cursor-pointer" loading="lazy">
+                                                                </template>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                    <template x-if="cLen>1">
+                                                        <div>
+                                                            <button x-show="cIdx>0" @click.stop="cIdx--" class="carousel-nav-btn prev"><i class="fas fa-chevron-left text-xs"></i></button>
+                                                            <button x-show="cIdx<cLen-1" @click.stop="cIdx++" class="carousel-nav-btn next"><i class="fas fa-chevron-right text-xs"></i></button>
+                                                            <div class="carousel-count-badge" x-text="(cIdx+1)+'/'+cLen"></div>
+                                                            <div class="carousel-dots">
+                                                                <template x-for="(_,di) in cItems" :key="di"><div class="carousel-dot" :class="di===cIdx?'active':''"></div></template>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </div>
                                             </div>
                                         </template>
                                         <div class="flex items-center gap-6 mt-3 text-[var(--text-sec)] text-sm">
@@ -5730,31 +5438,44 @@
                     </div>
                     
                     <!-- Medya Sekmesi -->
-                    <div x-show="profileTab === 'media'" class="grid grid-cols-3 gap-1">
-                        <template x-for="post in myPosts.filter(p => p.mediaUrl)" :key="'media-'+post.id">
+                    <!-- Fotoğraf Sekmesi (sadece resimler) -->
+                    <div x-show="profileTab === 'photos'" class="grid grid-cols-3 gap-1">
+                        <template x-for="post in myPosts.filter(p => p.mediaType !== 'video' && (p.mediaUrl || (p.mediaUrls && p.mediaUrls.length > 0)))" :key="'photo-'+post.id">
                             <div class="aspect-square overflow-hidden rounded-lg cursor-pointer hover:opacity-80 transition relative" @click="openTikTokScroll(post)">
-                                <template x-if="post.mediaType === 'video'">
-                                    <div class="w-full h-full bg-slate-800 flex items-center justify-center relative">
-                                        <img :src="post.thumbnail || ''" class="w-full h-full object-cover" x-show="post.thumbnail" @error="$el.style.display='none'">
-                                        <i class="fas fa-play absolute text-white text-xl"></i>
-                                    </div>
-                                </template>
-                                <template x-if="post.mediaType !== 'video'">
-                                    <img :src="post.mediaUrl" class="w-full h-full object-cover">
-                                </template>
-                                <!-- Çoklu medya rozeti -->
+                                <img :src="post.mediaUrl || (post.mediaUrls && post.mediaUrls[0] && (typeof post.mediaUrls[0]==='string'?post.mediaUrls[0]:post.mediaUrls[0].url))" class="w-full h-full object-cover" loading="lazy">
                                 <template x-if="post.mediaUrls && post.mediaUrls.length > 1">
-                                    <div class="absolute top-1.5 right-1.5 bg-black/60 backdrop-blur rounded-md px-1.5 py-0.5 flex items-center gap-1">
-                                        <i class="fas fa-layer-group text-white" style="font-size:9px;"></i>
-                                        <span class="text-white font-bold" style="font-size:9px;" x-text="post.mediaUrls.length"></span>
+                                    <div class="absolute top-1.5 right-1.5 bg-black/60 rounded-md px-1.5 py-0.5 text-white text-[10px] font-bold flex items-center gap-1">
+                                        <i class="fas fa-clone text-[8px]"></i><span x-text="post.mediaUrls.length"></span>
                                     </div>
                                 </template>
-            </div>
+                            </div>
                         </template>
-                        <template x-if="myPosts.filter(p => p.mediaUrl).length === 0">
+                        <template x-if="myPosts.filter(p => p.mediaType !== 'video' && (p.mediaUrl || (p.mediaUrls && p.mediaUrls.length > 0))).length === 0">
                             <div class="col-span-3 text-center py-12 text-[var(--text-sec)]">
-                                <i class="fas fa-images text-4xl mb-3 opacity-50"></i>
-                                <p class="font-medium">Henüz medya yok</p>
+                                <i class="fas fa-image text-4xl mb-3 opacity-50"></i>
+                                <p class="font-medium">Henüz fotoğraf yok</p>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Video Sekmesi (sadece videolar) -->
+                    <div x-show="profileTab === 'videos'" class="grid grid-cols-3 gap-1">
+                        <template x-for="post in myPosts.filter(p => p.mediaType === 'video' && (p.mediaUrl || (p.mediaUrls && p.mediaUrls.length > 0)))" :key="'video-'+post.id">
+                            <div class="aspect-square overflow-hidden rounded-lg cursor-pointer hover:opacity-80 transition relative" @click="openTikTokScroll(post)">
+                                <div class="w-full h-full bg-slate-800 flex items-center justify-center relative">
+                                    <img :src="post.thumbnail || ''" class="w-full h-full object-cover" @error="$el.style.display='none'">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="w-10 h-10 rounded-full bg-black/50 flex items-center justify-center">
+                                            <i class="fas fa-play text-white text-sm ml-0.5"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-if="myPosts.filter(p => p.mediaType === 'video' && (p.mediaUrl || (p.mediaUrls && p.mediaUrls.length > 0))).length === 0">
+                            <div class="col-span-3 text-center py-12 text-[var(--text-sec)]">
+                                <i class="fas fa-video text-4xl mb-3 opacity-50"></i>
+                                <p class="font-medium">Henüz video yok</p>
                             </div>
                         </template>
                     </div>
@@ -6722,70 +6443,81 @@
                         class="w-full bg-transparent text-lg placeholder:text-[var(--text-sec)] border-none outline-none resize-none"
                     ></textarea>
                     
-                    <!-- Çoklu Medya Önizleme -->
-                    <div x-show="postForm.previews.length > 0">
-                        <!-- Tek resim: büyük + filtreler -->
-                        <template x-if="postForm.previews.length === 1 && postForm.mediaType === 'image'">
-                            <div class="relative">
-                                <img :src="postForm.previews[0]" class="w-full max-h-80 object-cover rounded-2xl"
-                                     :style="`filter: brightness(${postEditForm.brightness}%) contrast(${postEditForm.contrast}%) saturate(${postEditForm.saturation}%)`">
-                                <div class="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur p-3 rounded-b-2xl">
-                                    <div class="flex items-center justify-around">
-                                        <button @click="postEditForm.filter='none';postEditForm.brightness=100;postEditForm.contrast=100;postEditForm.saturation=100" class="flex flex-col items-center gap-1" :class="postEditForm.filter==='none'?'text-emerald-400':'text-white'"><i class="fas fa-sun"></i><span class="text-[10px]">Orijinal</span></button>
-                                        <button @click="postEditForm.filter='vintage';postEditForm.brightness=110;postEditForm.contrast=90;postEditForm.saturation=80" class="flex flex-col items-center gap-1" :class="postEditForm.filter==='vintage'?'text-emerald-400':'text-white'"><i class="fas fa-history"></i><span class="text-[10px]">Vintage</span></button>
-                                        <button @click="postEditForm.filter='bright';postEditForm.brightness=130;postEditForm.contrast=110;postEditForm.saturation=120" class="flex flex-col items-center gap-1" :class="postEditForm.filter==='bright'?'text-emerald-400':'text-white'"><i class="fas fa-lightbulb"></i><span class="text-[10px]">Parlak</span></button>
-                                        <button @click="postEditForm.filter='dark';postEditForm.brightness=70;postEditForm.contrast=120;postEditForm.saturation=90" class="flex flex-col items-center gap-1" :class="postEditForm.filter==='dark'?'text-emerald-400':'text-white'"><i class="fas fa-moon"></i><span class="text-[10px]">Karanlık</span></button>
-                                        <button @click="postEditForm.filter='bw';postEditForm.saturation=0" class="flex flex-col items-center gap-1" :class="postEditForm.filter==='bw'?'text-emerald-400':'text-white'"><i class="fas fa-tint-slash"></i><span class="text-[10px]">S/B</span></button>
-                                    </div>
-                                    <div class="mt-3 space-y-2">
-                                        <div class="flex items-center gap-2"><i class="fas fa-sun text-white text-xs w-4"></i><input type="range" min="50" max="150" x-model="postEditForm.brightness" class="flex-1 h-1 bg-white/30 rounded-lg appearance-none"></div>
-                                        <div class="flex items-center gap-2"><i class="fas fa-adjust text-white text-xs w-4"></i><input type="range" min="50" max="150" x-model="postEditForm.contrast" class="flex-1 h-1 bg-white/30 rounded-lg appearance-none"></div>
-                                    </div>
-                                </div>
-                                <button @click="postForm.medias=[];postForm.previews=[];postForm.media=null;postForm.preview='';postForm.mediaType=null" class="absolute top-3 right-3 w-9 h-9 bg-black/60 text-white rounded-full flex items-center justify-center z-10"><i class="fas fa-times"></i></button>
-                            </div>
-                        </template>
-                        <!-- Tek video -->
-                        <template x-if="postForm.previews.length === 1 && postForm.mediaType === 'video'">
-                            <div class="relative">
-                                <video :src="postForm.previews[0]" class="w-full max-h-80 object-cover rounded-2xl" controls playsinline preload="metadata" x-init="$nextTick(()=>{$el.currentTime=0.1;})"></video>
-                                <div class="absolute top-3 left-3 bg-black/60 text-white text-xs px-2 py-1 rounded-full backdrop-blur"><i class="fas fa-video mr-1"></i>Video</div>
-                                <button @click="postForm.medias=[];postForm.previews=[];postForm.media=null;postForm.preview='';postForm.mediaType=null" class="absolute top-3 right-3 w-9 h-9 bg-black/60 text-white rounded-full flex items-center justify-center z-10"><i class="fas fa-times"></i></button>
-                            </div>
-                        </template>
-                        <!-- Çoklu medya -->
-                        <template x-if="postForm.previews.length > 1">
-                            <div x-data="{ ci: 0 }">
-                                <div class="post-carousel" style="max-height:280px;">
-                                    <div class="post-carousel-track" :style="`transform: translateX(-${ci*100}%)`">
-                                        <template x-for="(pv, idx) in postForm.previews" :key="idx">
-                                            <div class="post-carousel-slide" style="max-height:280px;">
-                                                <img :src="pv" class="w-full max-h-60 object-contain" x-show="!postForm.medias[idx] || !postForm.medias[idx].type || !postForm.medias[idx].type.startsWith('video/')">
-                                                <video :src="pv" class="w-full max-h-60 object-contain" muted playsinline preload="metadata" x-show="postForm.medias[idx] && postForm.medias[idx].type && postForm.medias[idx].type.startsWith('video/')"></video>
+                    <!-- Çoklu Medya Önizleme Grid -->
+                    <div x-show="postForm.mediaFiles.length > 0" class="relative">
+                        <div class="multi-media-grid"
+                             :class="postForm.mediaFiles.length === 1 ? 'count-1' : postForm.mediaFiles.length === 2 ? 'count-2' : postForm.mediaFiles.length === 3 ? 'count-3' : postForm.mediaFiles.length === 4 ? 'count-4' : 'count-many'">
+                            <template x-for="(m, idx) in postForm.mediaFiles" :key="idx">
+                                <div class="media-thumb" style="position:relative;">
+                                    <template x-if="m.mediaType === 'image'">
+                                        <img :src="m.preview" :style="postForm.mediaFiles.length === 1 ? `filter: brightness(${postEditForm.brightness}%) contrast(${postEditForm.contrast}%) saturate(${postEditForm.saturation}%)` : ''">
+                                    </template>
+                                    <template x-if="m.mediaType === 'video'">
+                                        <video :src="m.preview" muted playsinline preload="metadata" class="w-full h-full object-cover"></video>
+                                    </template>
+                                    <span class="media-thumb-type" x-text="m.mediaType === 'video' ? '🎬 Video' : '🖼️ Foto'"></span>
+                                    <!-- Dosya bazlı yükleme ilerleme göstergesi -->
+                                    <template x-if="isUploading && fileProgresses[idx] !== undefined">
+                                        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);padding:4px 6px;border-radius:0 0 8px 8px;">
+                                            <div style="display:flex;align-items:center;gap:4px;">
+                                                <div style="flex:1;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;overflow:hidden;">
+                                                    <div :style="'width:' + (fileProgresses[idx] || 0) + '%;height:100%;background:' + ((fileProgresses[idx] || 0) >= 100 ? '#10b981' : '#34d399') + ';border-radius:2px;transition:width 0.2s;'"></div>
+                                                </div>
+                                                <span style="font-size:9px;font-weight:700;color:white;min-width:28px;" x-text="(fileProgresses[idx] || 0) >= 100 ? '✓' : (fileProgresses[idx] || 0) + '%'"></span>
                                             </div>
-                                        </template>
-                                    </div>
-                                    <div class="post-carousel-counter" x-text="`${ci+1} / ${postForm.previews.length}`"></div>
-                                    <button x-show="ci > 0" @click.stop="ci--" class="post-carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                                    <button x-show="ci < postForm.previews.length-1" @click.stop="ci++" class="post-carousel-btn next"><i class="fas fa-chevron-right"></i></button>
-                                    <div class="post-carousel-dots"><template x-for="(p,i) in postForm.previews" :key="i"><div class="post-carousel-dot" :class="i===ci?'active':''"></div></template></div>
-                                </div>
-                                <div class="multi-media-preview mt-2">
-                                    <template x-for="(pv, idx) in postForm.previews" :key="idx">
-                                        <div class="multi-media-thumb">
-                                            <img :src="pv" class="w-full h-full object-cover">
-                                            <div class="order-badge" x-text="idx+1"></div>
-                                            <div class="remove-btn" @click="postForm.medias.splice(idx,1);postForm.previews.splice(idx,1);if(postForm.previews.length===0){postForm.media=null;postForm.preview='';postForm.mediaType=null;}"><i class="fas fa-times"></i></div>
                                         </div>
                                     </template>
-                                    <template x-if="postForm.previews.length < 10">
-                                        <label class="add-more-thumb">
-                                            <i class="fas fa-plus text-lg"></i>
-                                            <span>Ekle</span>
-                                            <input type="file" class="hidden" accept="image/*,video/*" multiple @change="addMoreMedia($event)">
-                                        </label>
-                                    </template>
+                                    <button class="media-thumb-remove" @click.stop="
+                                        URL.revokeObjectURL(postForm.mediaFiles[idx].preview);
+                                        postForm.mediaFiles.splice(idx, 1);
+                                        postForm.previews.splice(idx, 1);
+                                        if (postForm.mediaFiles.length > 0) {
+                                            postForm.media = postForm.mediaFiles[0].file;
+                                            postForm.preview = postForm.mediaFiles[0].preview;
+                                            postForm.mediaType = postForm.mediaFiles[0].mediaType;
+                                        } else {
+                                            postForm.media = null; postForm.preview = ''; postForm.mediaType = null;
+                                        }
+                                    "><i class="fas fa-times" style="font-size:9px;"></i></button>
                                 </div>
+                            </template>
+                            <!-- Daha fazla ekle -->
+                            <label x-show="postForm.mediaFiles.length > 0 && postForm.mediaFiles.length < 10" class="add-more-btn">
+                                <i class="fas fa-plus text-xl"></i>
+                                <span>Ekle</span>
+                                <input type="file" class="hidden" @change="handlePostMedia" accept="image/*,video/*" multiple>
+                            </label>
+                        </div>
+                        <!-- Filtreler (tek resim ise) -->
+                        <template x-if="postForm.mediaFiles.length === 1 && postForm.mediaFiles[0]?.mediaType === 'image'">
+                            <div class="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur p-3 rounded-b-2xl">
+                                <div class="flex items-center justify-around">
+                                    <button @click="postEditForm.filter='none';postEditForm.brightness=100;postEditForm.contrast=100;postEditForm.saturation=100" class="flex flex-col items-center gap-1" :class="postEditForm.filter==='none'?'text-emerald-400':'text-white'"><i class="fas fa-sun"></i><span class="text-[10px]">Orijinal</span></button>
+                                    <button @click="postEditForm.filter='vintage';postEditForm.brightness=110;postEditForm.contrast=90;postEditForm.saturation=80" class="flex flex-col items-center gap-1" :class="postEditForm.filter==='vintage'?'text-emerald-400':'text-white'"><i class="fas fa-history"></i><span class="text-[10px]">Vintage</span></button>
+                                    <button @click="postEditForm.filter='bright';postEditForm.brightness=130;postEditForm.contrast=110;postEditForm.saturation=120" class="flex flex-col items-center gap-1" :class="postEditForm.filter==='bright'?'text-emerald-400':'text-white'"><i class="fas fa-lightbulb"></i><span class="text-[10px]">Parlak</span></button>
+                                    <button @click="postEditForm.filter='dark';postEditForm.brightness=70;postEditForm.contrast=120;postEditForm.saturation=90" class="flex flex-col items-center gap-1" :class="postEditForm.filter==='dark'?'text-emerald-400':'text-white'"><i class="fas fa-moon"></i><span class="text-[10px]">Karanlık</span></button>
+                                    <button @click="postEditForm.filter='bw';postEditForm.saturation=0" class="flex flex-col items-center gap-1" :class="postEditForm.filter==='bw'?'text-emerald-400':'text-white'"><i class="fas fa-tint-slash"></i><span class="text-[10px]">S/B</span></button>
+                                </div>
+                                <div class="mt-3 space-y-2">
+                                    <div class="flex items-center gap-2"><i class="fas fa-sun text-white text-xs w-4"></i><input type="range" min="50" max="150" x-model="postEditForm.brightness" class="flex-1 h-1 bg-white/30 rounded-lg appearance-none"></div>
+                                    <div class="flex items-center gap-2"><i class="fas fa-adjust text-white text-xs w-4"></i><input type="range" min="50" max="150" x-model="postEditForm.contrast" class="flex-1 h-1 bg-white/30 rounded-lg appearance-none"></div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    
+                    <!-- Tekli medya (eski uyumluluk - mediaFiles boşsa) -->
+                    <div x-show="postForm.preview && postForm.mediaFiles.length === 0" class="relative">
+                        <template x-if="postForm.mediaType === 'image'">
+                            <div class="relative">
+                                <img :src="postForm.preview" class="w-full max-h-80 object-cover rounded-2xl" :style="`filter: brightness(${postEditForm.brightness}%) contrast(${postEditForm.contrast}%) saturate(${postEditForm.saturation}%)`">
+                                <button @click="postForm.media=null;postForm.preview='';postForm.mediaType=null" class="absolute top-3 right-3 w-10 h-10 bg-black/60 text-white rounded-full flex items-center justify-center z-10"><i class="fas fa-times"></i></button>
+                            </div>
+                        </template>
+                        <template x-if="postForm.mediaType === 'video'">
+                            <div class="relative">
+                                <video :src="postForm.preview" class="w-full max-h-80 object-cover rounded-2xl" controls playsinline preload="metadata"></video>
+                                <button @click="postForm.media=null;postForm.preview='';postForm.mediaType=null" class="absolute top-3 right-3 w-10 h-10 bg-black/60 text-white rounded-full flex items-center justify-center z-10"><i class="fas fa-times"></i></button>
                             </div>
                         </template>
                     </div>
@@ -6873,14 +6605,14 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <label class="flex items-center gap-2 px-3 py-2.5 text-emerald-600 cursor-pointer rounded-xl hover:bg-emerald-50 transition">
-                        <i class="fas fa-images text-lg"></i>
+                        <i class="fas fa-image text-lg"></i>
                         <span class="text-xs font-bold">Galeri</span>
-                        <input type="file" class="hidden" @change="handlePostMedia" accept="image/*" multiple>
+                        <input type="file" class="hidden" @change="handlePostMedia" accept="image/*,video/*" multiple>
                     </label>
                     <label class="flex items-center gap-2 px-3 py-2.5 text-emerald-600 cursor-pointer rounded-xl hover:bg-emerald-50 transition">
                         <i class="fas fa-video text-lg"></i>
                         <span class="text-xs font-bold">Video</span>
-                        <input type="file" class="hidden" @change="handlePostMedia" accept="video/*">
+                        <input type="file" class="hidden" @change="handlePostMedia" accept="video/*" multiple>
                     </label>
                     <button @click="openCameraCapture()" class="flex items-center gap-2 px-3 py-2.5 text-blue-600 rounded-xl hover:bg-blue-50 transition">
                         <i class="fas fa-camera text-lg"></i>
@@ -7232,7 +6964,7 @@
                                         <video x-init="$nextTick(()=>initAgroHLS($el, msg.mediaUrl || msg.content))"
                                                class="max-w-full max-h-64 rounded-lg" 
                                                controls 
-                                               preload="metadata"
+                                               preload="none"
                                                @error="console.log('Video yüklenemedi:', msg.mediaUrl || msg.content)">
                                         </video>
                                     </div>
@@ -8240,14 +7972,46 @@
                                     <span class="text-[var(--text-sec)] text-xs" x-text="formatDate(post.createdAt)"></span>
                                 </div>
                                 <p class="mt-2 text-sm" x-html="formatContent(post.content)"></p>
-                                <template x-if="post.mediaUrl">
-                                    <div class="mt-3">
-                                        <template x-if="post.mediaType === 'video'">
-                                            <video x-init="$nextTick(()=>initAgroHLS($el,post.mediaUrl))" class="rounded-2xl w-full max-h-80 object-cover" controls></video>
-                                        </template>
-                                        <template x-if="post.mediaType !== 'video'">
-                                            <img :src="post.mediaUrl" @click="openFullScreen(post.mediaUrl, 'image')" class="rounded-2xl w-full max-h-80 object-cover cursor-pointer">
-                                        </template>
+                                <template x-if="post.mediaUrl || (post.mediaUrls && post.mediaUrls.length > 0)">
+                                    <div class="mt-3"
+                                         x-data="{
+                                            cIdx: 0,
+                                            get cItems() { if(post.mediaUrls&&post.mediaUrls.length>0) return post.mediaUrls; if(post.mediaUrl) return [{url:post.mediaUrl,type:post.mediaType||'image'}]; return []; },
+                                            get cLen() { return this.cItems.length; },
+                                            getUrl(item) { return typeof item==='string'?item:(item.url||item.mediaUrl||''); },
+                                            getType(item) { return typeof item==='string'?'image':(item.type||item.mediaType||'image'); },
+                                            touchSX: 0
+                                         }">
+                                        <div class="media-carousel"
+                                             @touchstart="touchSX=$event.touches[0].clientX"
+                                             @touchend="const dx=$event.changedTouches[0].clientX-touchSX;if(Math.abs(dx)>40){dx<0?(cIdx<cLen-1?cIdx++:null):(cIdx>0?cIdx--:null)}">
+                                            <div class="media-carousel-track" :style="`transform:translateX(-${cIdx*100}%)`">
+                                                <template x-for="(item,ii) in cItems" :key="ii">
+                                                    <div class="media-carousel-slide">
+                                                        <template x-if="getType(item)==='video'">
+                                                            <div class="relative">
+                                                                <div class="video-loading-overlay"><div class="video-spinner"></div></div>
+                                                                <video x-init="$nextTick(()=>{$el.addEventListener('canplay',()=>$el.parentElement.querySelector('.video-loading-overlay').classList.add('hidden'));initAgroHLS($el,getUrl(item));})"
+                                                                       class="w-full max-h-80 object-cover" controls preload="none" playsinline></video>
+                                                            </div>
+                                                        </template>
+                                                        <template x-if="getType(item)!=='video'">
+                                                            <img :src="getUrl(item)" @click="openTikTokScroll(post)" class="w-full max-h-80 object-cover cursor-pointer" loading="lazy">
+                                                        </template>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                            <template x-if="cLen>1">
+                                                <div>
+                                                    <button x-show="cIdx>0" @click.stop="cIdx--" class="carousel-nav-btn prev"><i class="fas fa-chevron-left text-xs"></i></button>
+                                                    <button x-show="cIdx<cLen-1" @click.stop="cIdx++" class="carousel-nav-btn next"><i class="fas fa-chevron-right text-xs"></i></button>
+                                                    <div class="carousel-count-badge" x-text="(cIdx+1)+'/'+cLen"></div>
+                                                    <div class="carousel-dots">
+                                                        <template x-for="(_,di) in cItems" :key="di"><div class="carousel-dot" :class="di===cIdx?'active':''"></div></template>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </div>
                                     </div>
                                 </template>
                                 <div class="flex items-center gap-6 mt-3 text-[var(--text-sec)] text-sm">
@@ -8272,27 +8036,25 @@
             
             <!-- Medya Sekmesi -->
             <div x-show="userProfileTab === 'media'" class="grid grid-cols-3 gap-1">
-                <template x-for="post in viewedUserPosts.filter(p => p.mediaUrl)" :key="'user-media-'+post.id">
+                <template x-for="post in viewedUserPosts.filter(p => p.mediaUrl || (p.mediaUrls && p.mediaUrls.length > 0))" :key="'user-media-'+post.id">
                     <div class="aspect-square overflow-hidden rounded-lg cursor-pointer hover:opacity-80 transition relative" @click="openTikTokScroll(post)">
                         <template x-if="post.mediaType === 'video'">
                             <div class="w-full h-full bg-slate-800 flex items-center justify-center relative">
-                                <img :src="post.thumbnail || ''" class="w-full h-full object-cover" x-show="post.thumbnail" @error="$el.style.display='none'">
-                                <i class="fas fa-play absolute text-white text-xl"></i>
+                                <img :src="post.thumbnail || ''" class="w-full h-full object-cover" @error="$el.style.display='none'">
+                                <i class="fas fa-play absolute text-white text-xl drop-shadow"></i>
                             </div>
                         </template>
                         <template x-if="post.mediaType !== 'video'">
-                            <img :src="post.mediaUrl" class="w-full h-full object-cover">
+                            <img :src="post.mediaUrl || (post.mediaUrls && post.mediaUrls[0] && (typeof post.mediaUrls[0]==='string'?post.mediaUrls[0]:post.mediaUrls[0].url))" class="w-full h-full object-cover" loading="lazy">
                         </template>
-                        <!-- Çoklu medya rozeti -->
                         <template x-if="post.mediaUrls && post.mediaUrls.length > 1">
-                            <div class="absolute top-1.5 right-1.5 bg-black/60 backdrop-blur rounded-md px-1.5 py-0.5 flex items-center gap-1">
-                                <i class="fas fa-layer-group text-white" style="font-size:9px;"></i>
-                                <span class="text-white font-bold" style="font-size:9px;" x-text="post.mediaUrls.length"></span>
+                            <div class="absolute top-1.5 right-1.5 bg-black/60 rounded-md px-1.5 py-0.5 text-white text-[10px] font-bold flex items-center gap-1">
+                                <i class="fas fa-clone text-[8px]"></i><span x-text="post.mediaUrls.length"></span>
                             </div>
                         </template>
                     </div>
                 </template>
-                <template x-if="viewedUserPosts.filter(p => p.mediaUrl).length === 0">
+                <template x-if="viewedUserPosts.filter(p => p.mediaUrl || (p.mediaUrls && p.mediaUrls.length > 0)).length === 0">
                     <div class="col-span-3 text-center py-12 text-[var(--text-sec)]">
                         <i class="fas fa-images text-4xl mb-3 opacity-50"></i>
                         <p class="font-medium">Henüz medya yok</p>
@@ -8480,13 +8242,20 @@
         <button @click="closeTikTokScroll" class="absolute top-4 left-4 z-50 text-white p-2">
             <i class="fas fa-arrow-left text-2xl"></i>
         </button>
+        <!-- Ses Butonu - üst sağ köşe (tek tık = tüm vidolarda ses) -->
+        <button @click.stop="
+            globalMuted = !globalMuted;
+            window.dispatchEvent(new CustomEvent('agrolink:mutechange', {detail:{muted:globalMuted}}));
+            const activeV = document.querySelectorAll('.tiktok-scroll-wrapper video')[currentTikTokIndex];
+            if (activeV) activeV.muted = globalMuted;
+        " class="absolute top-4 right-4 z-50 w-11 h-11 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white border border-white/20 transition active:scale-90">
+            <i class="fas text-lg" :class="globalMuted ? 'fa-volume-xmark' : 'fa-volume-high'"></i>
+        </button>
         
         <div class="tiktok-scroll-wrapper" @scroll="handleTikTokScroll">
             <template x-for="(post, index) in tikTokPosts" :key="post.id">
                 <div class="tiktok-post" 
-                     @dblclick="doubleTapLike(post)"
-                     @touchstart="handleTouchStart($event)"
-                     @touchend="handleTouchEnd($event, post)">
+                     @dblclick="doubleTapLike(post)">
                     
                     <!-- Kalp Atma Animasyonu -->
                     <div x-show="showHeartAnimation === post.id" 
@@ -8499,97 +8268,98 @@
                     <!-- Medya -->
                     <template x-if="post.mediaType === 'video'">
                         <div class="relative w-full h-full flex items-center justify-center"
-                             x-data="{ isMutedLocal: true, showVolumeIndicator: false }"
+                             x-data="{ isPlaying: true, videoLoading: true }"
                              x-init="
-                                // Sadece aktif video ses çalar, diğerleri her zaman sessiz
+                                const muteH = (e) => {
+                                    const v = $el.querySelector('video');
+                                    if (v) v.muted = e.detail.muted;
+                                };
+                                window.addEventListener('agrolink:mutechange', muteH);
                                 $watch('currentTikTokIndex', (newIndex) => {
                                     const thisIndex = tikTokPosts.indexOf(post);
                                     const video = $el.querySelector('video');
                                     if (!video) return;
                                     if (thisIndex === newIndex) {
-                                        // Bu video aktif - unmute et ve çal
-                                        video.muted = false;
-                                        isMutedLocal = false;
-                                        video.play().catch(() => { video.muted = true; isMutedLocal = true; });
+                                        if (!video._agroInitialized) initAgroHLS(video, post.mediaUrl);
+                                        video.muted = globalMuted;
+                                        isPlaying = true;
+                                        video.play().catch(() => { video.muted = true; });
                                     } else {
-                                        // Aktif değil - durdur ve sesini kapat
-                                        video.pause();
-                                        video.muted = true;
-                                        isMutedLocal = true;
+                                        video.pause(); isPlaying = false;
                                     }
                                 });
                              "
                              @click="
                                 const video = $el.querySelector('video');
                                 if (!video) return;
-                                isMutedLocal = !isMutedLocal;
-                                video.muted = isMutedLocal;
-                                showVolumeIndicator = true;
-                                setTimeout(() => showVolumeIndicator = false, 1500);
+                                if (video.paused) { video.play(); isPlaying = true; }
+                                else { video.pause(); isPlaying = false; }
                              ">
-                            <!-- TikTok Video Yükleniyor Spinner -->
-                            <div class="tiktok-video-spinner absolute inset-0 flex items-center justify-center z-10 pointer-events-none" style="display:flex!important;">
-                                <div style="width:52px;height:52px;border:3px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;"></div>
+                            <!-- Video Loading Spinner -->
+                            <div x-show="videoLoading" class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+                                <div class="video-spinner" style="width:56px;height:56px;border-width:5px;"></div>
                             </div>
-                            <video :poster="post.thumbnail || ''"
-                                   x-init="
-                                       $nextTick(() => { initAgroHLS($el, post.mediaUrl); });
-                                       const spinner = $el.parentElement.querySelector('.tiktok-video-spinner');
-                                       $el.addEventListener('canplay', () => { if(spinner) spinner.style.display='none'; });
-                                       $el.addEventListener('waiting', () => { if(spinner) spinner.style.display='flex'; });
-                                       $el.addEventListener('playing', () => { if(spinner) spinner.style.display='none'; });
-                                   "
-                                   autoplay
-                                   loop
-                                   muted
-                                   playsinline
-                                   class="max-h-screen max-w-full"
-                                   x-ref="tiktokvideo"></video>
-                            <!-- Ses Göstergesi -->
-                            <div x-show="showVolumeIndicator"
-                                 x-transition
-                                 class="absolute inset-0 flex items-center justify-center bg-black/50 pointer-events-none">
-                                <i class="fas text-white text-6xl" x-text="isMutedLocal ? '🔇' : '🔊'"></i>
-                            </div>
-                            <!-- Ses İkonu (Küçük) -->
-                            <div class="absolute top-20 right-4 bg-black/50 rounded-full p-3 pointer-events-none">
-                                <i class="fas text-white text-xl" x-text="isMutedLocal ? '🔇' : '🔊'"></i>
-                            </div>
-                        </div>
-                    </template>
-                    <template x-if="post.mediaType !== 'video' && post.mediaUrl">
-                        <!-- Çoklu resim carousel veya tekil resim -->
-                        <template x-if="post.mediaUrls && post.mediaUrls.length > 1">
-                            <div class="w-full h-full flex items-center justify-center relative"
-                                 x-data="{
-                                     ci: 0,
-                                     startX: 0,
-                                     onTouchStart(e) { this.startX = e.touches[0].clientX; },
-                                     onTouchEnd(e) {
-                                         const dx = e.changedTouches[0].clientX - this.startX;
-                                         if (dx < -40 && this.ci < post.mediaUrls.length-1) this.ci++;
-                                         else if (dx > 40 && this.ci > 0) this.ci--;
-                                     }
-                                 }"
-                                 @touchstart="onTouchStart($event)"
-                                 @touchend="onTouchEnd($event)">
-                                <img :src="post.mediaUrls[ci]" class="max-h-screen max-w-full object-contain">
-                                <!-- Sayaç -->
-                                <div class="absolute top-16 right-4 bg-black/60 text-white text-xs font-bold px-2.5 py-1 rounded-full z-10" x-text="`${ci+1} / ${post.mediaUrls.length}`"></div>
-                                <!-- Ok butonları -->
-                                <button x-show="ci > 0" @click.stop="ci--" class="post-carousel-btn prev" style="top:50%;"><i class="fas fa-chevron-left"></i></button>
-                                <button x-show="ci < post.mediaUrls.length-1" @click.stop="ci++" class="post-carousel-btn next" style="top:50%;"><i class="fas fa-chevron-right"></i></button>
-                                <!-- Noktalar -->
-                                <div class="post-carousel-dots" style="bottom:100px;">
-                                    <template x-for="(u,i) in post.mediaUrls" :key="i">
-                                        <div class="post-carousel-dot" :class="i===ci?'active':''"></div>
-                                    </template>
+                            <!-- Duraklat göstergesi -->
+                            <div x-show="!isPlaying" class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                                <div class="bg-black/50 rounded-full w-20 h-20 flex items-center justify-center">
+                                    <i class="fas fa-play text-white text-3xl ml-1"></i>
                                 </div>
                             </div>
-                        </template>
-                        <template x-if="!post.mediaUrls || post.mediaUrls.length <= 1">
-                            <img :src="post.mediaUrl" class="max-h-screen max-w-full object-contain">
-                        </template>
+                            <video :poster="post.thumbnail || ''"
+                                   x-init="$nextTick(() => {
+                                       const v = $el;
+                                       v.addEventListener('loadstart', () => videoLoading = true);
+                                       v.addEventListener('waiting', () => videoLoading = true);
+                                       v.addEventListener('canplay', () => videoLoading = false);
+                                       v.addEventListener('playing', () => { videoLoading = false; isPlaying = true; });
+                                       v.addEventListener('pause', () => isPlaying = false);
+                                       v.addEventListener('error', () => videoLoading = false);
+                                       const thisIdx = tikTokPosts.indexOf(post);
+                                       if (Math.abs(thisIdx - currentTikTokIndex) <= 1) initAgroHLS(v, post.mediaUrl);
+                                   })"
+                                   autoplay loop muted playsinline preload="none"
+                                   class="max-h-screen max-w-full"
+                                   x-ref="tiktokvideo"></video>
+                        </div>
+                    </template>
+                    <!-- Resim - Carousel (birden fazla varsa) -->
+                    <template x-if="post.mediaType !== 'video'">
+                        <div class="w-full h-full flex items-center justify-center"
+                             x-data="{
+                                cIdx: 0,
+                                get cItems() {
+                                    if (post.mediaUrls && post.mediaUrls.length > 0) return post.mediaUrls;
+                                    if (post.mediaUrl) return [post.mediaUrl];
+                                    return [];
+                                },
+                                get cLen() { return this.cItems.length; },
+                                getUrl(item) { return typeof item === 'string' ? item : (item.url || item.mediaUrl || ''); },
+                                touchSX: 0,
+                                onTS(e) { this.touchSX = e.touches[0].clientX; },
+                                onTE(e) { const dx = e.changedTouches[0].clientX - this.touchSX; if (Math.abs(dx) > 40) { dx < 0 ? (this.cIdx < this.cLen-1 ? this.cIdx++ : null) : (this.cIdx > 0 ? this.cIdx-- : null); } }
+                             }"
+                             style="position:relative;overflow:hidden;"
+                             @touchstart="onTS($event)" @touchend="onTE($event)">
+                            <div style="display:flex;width:100%;height:100%;transition:transform 0.35s cubic-bezier(.4,0,.2,1);" :style="`transform:translateX(-${cIdx*100}%)`">
+                                <template x-for="(item, ii) in cItems" :key="ii">
+                                    <div style="flex:0 0 100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+                                        <img :src="getUrl(item)" class="max-h-screen max-w-full object-contain" loading="lazy">
+                                    </div>
+                                </template>
+                            </div>
+                            <template x-if="cLen > 1">
+                                <div>
+                                    <button x-show="cIdx > 0" @click.stop="cIdx--" class="carousel-nav-btn prev" style="top:50%;"><i class="fas fa-chevron-left text-xs"></i></button>
+                                    <button x-show="cIdx < cLen-1" @click.stop="cIdx++" class="carousel-nav-btn next" style="top:50%;"><i class="fas fa-chevron-right text-xs"></i></button>
+                                    <div class="carousel-count-badge" x-text="(cIdx+1)+'/'+cLen"></div>
+                                    <div class="carousel-dots" style="bottom:100px;">
+                                        <template x-for="(_, di) in cItems" :key="di">
+                                            <div class="carousel-dot" :class="di===cIdx?'active':''"></div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
                     </template>
                     
                     <!-- İçerik (metin gönderisi) -->
@@ -10337,7 +10107,7 @@
                         <div @click="openTikTokScroll(post)" class="aspect-square relative overflow-hidden rounded-lg cursor-pointer hover:opacity-80 transition">
                             <template x-if="post.mediaType === 'video'">
                                 <div class="w-full h-full bg-slate-800 flex items-center justify-center relative">
-                                    <video x-init="$nextTick(()=>initAgroHLS($el,post.mediaUrl))" class="w-full h-full object-cover"></video>
+                                    <img :src="post.thumbnail || ''" class="w-full h-full object-cover" @error="$el.style.display='none'">
                                     <i class="fas fa-play absolute text-white text-xl drop-shadow-lg"></i>
                                 </div>
                             </template>
@@ -10347,6 +10117,12 @@
                             <template x-if="!post.mediaUrl">
                                 <div class="w-full h-full bg-gradient-to-br from-emerald-100 to-teal-50 flex items-center justify-center p-3">
                                     <p class="text-xs text-center text-[var(--text-sec)] line-clamp-4" x-text="post.content"></p>
+                                </div>
+                            </template>
+                            <!-- Çoklu medya göstergesi -->
+                            <template x-if="post.mediaUrls && post.mediaUrls.length > 1">
+                                <div class="absolute top-1.5 right-1.5 bg-black/60 rounded-md px-1.5 py-0.5 text-white text-[10px] font-bold flex items-center gap-1">
+                                    <i class="fas fa-clone text-[8px]"></i><span x-text="post.mediaUrls.length"></span>
                                 </div>
                             </template>
                         </div>
@@ -10449,10 +10225,10 @@
                         abrEwmaSlowLive:         9.0,
                         abrBandWidthFactor:      0.95,
                         abrBandWidthUpFactor:    0.85,
-                        maxBufferLength:         10,
-                        maxMaxBufferLength:      20,
-                        maxBufferSize:           20*1000*1000,
-                        backBufferLength:        3,
+                        maxBufferLength:         30,
+                        maxMaxBufferLength:      60,
+                        maxBufferSize:           60*1000*1000,
+                        backBufferLength:        10,
                         fragLoadingMaxRetry:     4,
                         levelLoadingMaxRetry:    2,
                         manifestLoadingMaxRetry: 2,
@@ -11464,8 +11240,9 @@
                 
                 // Posts
                 showPostModal: false,
-                postForm: { content: '', media: null, preview: '', mediaType: null, type: 'normal', pollQuestion: '', pollOptions: ['', ''], showLocation: false, locationName: '', commentsDisabled: false, medias: [], previews: [] },
+                postForm: { content: '', media: null, preview: '', mediaType: null, type: 'normal', pollQuestion: '', pollOptions: ['', ''], showLocation: false, locationName: '', commentsDisabled: false, mediaFiles: [], previews: [] },
                 uploadProgress: 0,
+                fileProgresses: [], // Her dosya için ayrı ilerleme [{ name, progress, done }]
                 isUploading: false,
                 
                 // Comments
@@ -11789,20 +11566,6 @@
                     
                     this.isLoggedIn = !!secureToken;
                     this.user = secureUser || {};
-                    
-                    // ═══ HOŞGELDİN MESAJI — her giriş açılışında ═══
-                    if (secureToken && secureUser?.name) {
-                        const lastWelcome = localStorage.getItem('agro_last_welcome');
-                        const now = Date.now();
-                        // Aynı gün içinde sadece 1 kez göster
-                        if (!lastWelcome || now - parseInt(lastWelcome) > 8 * 60 * 60 * 1000) {
-                            setTimeout(() => {
-                                const greet = this.getTimeGreeting();
-                                this.showToast('👋 ' + greet + ', ' + (secureUser.name?.split(' ')[0] || 'Çiftçi') + '! AgroLink\'e hoş geldin 🌾');
-                                localStorage.setItem('agro_last_welcome', now.toString());
-                            }, 1800);
-                        }
-                    }
                     
                     this.generateCaptcha();
                     
@@ -13498,42 +13261,29 @@
                     const files = Array.from(e.target.files);
                     if (!files.length) return;
                     const maxSize = 100 * 1024 * 1024;
-                    
-                    const valid = files.filter(f => {
-                        if (f.size > maxSize) { this.showToast(`❌ ${f.name} çok büyük (max 100MB)`); return false; }
-                        return true;
-                    });
-                    if (!valid.length) return;
-                    
-                    // Max 10 medya
-                    const available = 10 - (this.postForm.previews.length);
-                    const toAdd = valid.slice(0, available);
-                    if (valid.length > available) this.showToast(`⚠️ Maksimum 10 medya eklenebilir`);
-                    
+                    const validFiles = [];
+                    for (const file of files) {
+                        if (file.size > maxSize) { this.showToast(`❌ "${file.name}" çok büyük (${(file.size/1024/1024).toFixed(1)}MB). Maks: 100MB`); continue; }
+                        validFiles.push(file);
+                    }
+                    if (!validFiles.length) { e.target.value = ''; return; }
+                    const remaining = 10 - this.postForm.mediaFiles.length;
+                    const toAdd = validFiles.slice(0, remaining);
+                    if (validFiles.length > remaining) this.showToast(`⚠️ Maksimum 10 medya. ${validFiles.length - remaining} dosya atlandı.`);
                     toAdd.forEach(file => {
-                        this.postForm.medias.push(file);
-                        this.postForm.previews.push(URL.createObjectURL(file));
+                        const preview = URL.createObjectURL(file);
+                        const mediaType = file.type.startsWith('video/') ? 'video' : 'image';
+                        this.postForm.mediaFiles.push({ file, preview, mediaType });
+                        this.postForm.previews.push(preview);
                     });
-                    // Uyumluluk için ilk dosyayı ana medya olarak set et
-                    this.postForm.media = this.postForm.medias[0];
-                    this.postForm.preview = this.postForm.previews[0];
-                    this.postForm.mediaType = this.postForm.medias[0].type.startsWith('video/') ? 'video' : 'image';
+                    if (this.postForm.mediaFiles.length > 0) {
+                        this.postForm.media = this.postForm.mediaFiles[0].file;
+                        this.postForm.preview = this.postForm.mediaFiles[0].preview;
+                        this.postForm.mediaType = this.postForm.mediaFiles[0].mediaType;
+                    }
                     e.target.value = '';
                 },
                 
-                addMoreMedia(e) {
-                    const files = Array.from(e.target.files);
-                    const maxSize = 100 * 1024 * 1024;
-                    const available = 10 - this.postForm.previews.length;
-                    const toAdd = files.filter(f => f.size <= maxSize).slice(0, available);
-                    toAdd.forEach(f => {
-                        this.postForm.medias.push(f);
-                        this.postForm.previews.push(URL.createObjectURL(f));
-                    });
-                    if (toAdd.length) this.showToast(`✅ ${toAdd.length} medya eklendi`);
-                    e.target.value = '';
-                },
-
                 // Kameradan Fotoğraf/Video Çekme
                 async openCameraCapture() {
                     try {
@@ -13657,6 +13407,8 @@
                     this.loading = true;
                     this.isUploading = this.postForm.media ? true : false;
                     this.uploadProgress = 0;
+                    // Her dosya için ilerleme başlat
+                    this.fileProgresses = this.postForm.mediaFiles.map(() => 0);
                     
                     try {
                         console.log('📦 FormData hazırlanıyor...');
@@ -13688,22 +13440,54 @@
                             
                             console.log('   ✅ İçerik eklendi:', sanitizedContent ? sanitizedContent.substring(0, 50) + '...' : 'BOŞ');
                             
-                            // MEDYA EKLEME
-                            if (this.postForm.media) {
-                                const isVideo = this.postForm.mediaType === 'video';
-                                const fileSizeMB = (this.postForm.media.size / 1024 / 1024).toFixed(2);
+                            // MEDYA EKLEME (Çoklu destek)
+                            if (this.postForm.mediaFiles && this.postForm.mediaFiles.length > 0) {
+                                const totalMB = this.postForm.mediaFiles.reduce((s,m) => s + m.file.size, 0) / 1024 / 1024;
+                                if (this.postForm.mediaFiles[0].mediaType === 'video' && totalMB > 10) this.showToast('Video yükleniyor, lütfen bekleyin...');
                                 
-                                if (isVideo && this.postForm.media.size > 10 * 1024 * 1024) {
-                                    this.showToast('Video yükleniyor, lütfen bekleyin...');
+                                // ✅ SIRAILI YÜKLEME: Her dosya için ayrı istek + ilerleme göstergesi
+                                const uploadedUrls = [];
+                                for (let i = 0; i < this.postForm.mediaFiles.length; i++) {
+                                    const mFile = this.postForm.mediaFiles[i];
+                                    const fileFd = new FormData();
+                                    fileFd.append('media', mFile.file);
+                                    fileFd.append('uploadOnly', 'true'); // sunucuya yalnızca dosya yükle, post oluşturma
+                                    this.fileProgresses[i] = 0;
+                                    this.fileProgresses = [...this.fileProgresses]; // Alpine reaktivitesi
+                                    
+                                    try {
+                                        const fileRes = await axios.post('/api/upload', fileFd, {
+                                            onUploadProgress: (pe) => {
+                                                if (pe.total) {
+                                                    this.fileProgresses[i] = Math.min(99, Math.round((pe.loaded * 100) / pe.total));
+                                                    this.fileProgresses = [...this.fileProgresses];
+                                                    this.uploadProgress = Math.round(this.fileProgresses.reduce((s, p) => s + p, 0) / this.fileProgresses.length);
+                                                }
+                                            },
+                                            timeout: 300000,
+                                            validateStatus: s => s >= 200 && s < 600
+                                        });
+                                        if (fileRes.data && (fileRes.data.url || fileRes.data.mediaUrl)) {
+                                            uploadedUrls.push({ url: fileRes.data.url || fileRes.data.mediaUrl, type: mFile.mediaType });
+                                        }
+                                    } catch(fileErr) {
+                                        console.error(`❌ Dosya ${i+1} yüklenemedi:`, fileErr.message);
+                                    }
+                                    this.fileProgresses[i] = 100;
+                                    this.fileProgresses = [...this.fileProgresses];
                                 }
                                 
-                                // Çoklu medya desteği: tüm dosyaları ekle
-                                const mediasToUpload = this.postForm.medias.length > 0 ? this.postForm.medias : [this.postForm.media];
-                                mediasToUpload.forEach((f, i) => {
-                                    fd.append(i === 0 ? 'media' : `media_${i}`, f);
-                                });
-                                if (mediasToUpload.length > 1) fd.append('mediaCount', mediasToUpload.length);
-                                console.log(`   ✅ ${mediasToUpload.length} medya FormData'ya eklendi`);
+                                if (uploadedUrls.length > 0) {
+                                    fd.append('uploadedUrls', JSON.stringify(uploadedUrls));
+                                } else {
+                                    // Fallback: sunucu /api/upload desteklemiyorsa eski yöntemle ekle
+                                    this.postForm.mediaFiles.forEach(m => fd.append('media', m.file));
+                                }
+                                console.log(`   ✅ ${this.postForm.mediaFiles.length} medya işlendi`);
+                            } else if (this.postForm.media) {
+                                if (this.postForm.mediaType === 'video' && this.postForm.media.size > 10*1024*1024) this.showToast('Video yükleniyor, lütfen bekleyin...');
+                                fd.append('media', this.postForm.media);
+                                console.log('   ✅ Medya FormData\'ya eklendi');
                             }
                             
                             // KONUM EKLEME
@@ -13727,20 +13511,15 @@
                         console.log('   Content-Type: multipart/form-data');
                         
                         const response = await axios.post('/api/posts', fd, {
-                            // Content-Type header'ı KASITLI olarak yok - Axios FormData'yı
-                            // otomatik olarak boundary'yle birlikte ayarlar.
                             onUploadProgress: (progressEvent) => {
                                 if (progressEvent.total) {
                                     const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                                     this.uploadProgress = percentCompleted;
-                                    if (percentCompleted % 10 === 0) { // Her %10'da bir log
-                                        console.log(`   📊 Upload ilerleme: ${percentCompleted}%`);
-                                    }
                                 }
                             },
-                            timeout: 300000, // 5 dakika
+                            timeout: 300000,
                             validateStatus: function (status) {
-                                return status >= 200 && status < 600; // Tüm statusları kabul et
+                                return status >= 200 && status < 600;
                             }
                         });
                         
@@ -13758,23 +13537,19 @@
                                 console.log('   İşlem süresi:', response.data.processingTime);
                                 
                                 this.uploadProgress = 100;
+                                this.fileProgresses = this.fileProgresses.map(() => 100);
                                 await new Promise(r => setTimeout(r, 500));
                                 
                                 // Modal kapat ve formu temizle
                                 this.showPostModal = false;
+                                (this.postForm.previews || []).forEach(url => { try { URL.revokeObjectURL(url); } catch(e) {} });
                                 this.postForm = { 
-                                    content: '', 
-                                    media: null, 
-                                    preview: '', 
-                                    mediaType: null, 
-                                    type: 'normal', 
-                                    pollQuestion: '', 
-                                    pollOptions: ['', ''], 
-                                    showLocation: false, 
-                                    locationName: '',
-                                    medias: [],
-                                    previews: []
+                                    content: '', media: null, preview: '', mediaType: null,
+                                    type: 'normal', pollQuestion: '', pollOptions: ['', ''],
+                                    showLocation: false, locationName: '', commentsDisabled: false,
+                                    mediaFiles: [], previews: []
                                 };
+                                this.fileProgresses = [];
                                 
                                 // Feed'i yenile
                                 this.fetchPosts(true);
@@ -13872,6 +13647,7 @@
                         this.loading = false;
                         this.isUploading = false;
                         this.uploadProgress = 0;
+                        this.fileProgresses = [];
                     }
                 },
 
@@ -15575,18 +15351,6 @@
                         this.mutualFollowersCount = mutualRes.data.count || 0;
                         this.viewingUserId = userId;
                         
-                        // ═══ OG META GÜNCELLE — WhatsApp/Instagram önizlemesi ═══
-                        if (this.viewedUser) {
-                            const vu = this.viewedUser;
-                            const ogTitle = (vu.name || vu.username) + ' (@' + vu.username + ') • AgroLink';
-                            const ogDesc  = (vu.bio ? vu.bio.substring(0,120) + '... • ' : '') 
-                                          + (vu.followerCount||0) + ' takipçi · ' + (vu.postCount||0) + ' gönderi · AgroLink Tarım Topluluğu';
-                            const ogImg   = vu.profilePic && vu.profilePic.startsWith('/uploads') 
-                                          ? 'https://sehitumitkestitarimmtal.com' + vu.profilePic 
-                                          : (vu.profilePic || 'https://sehitumitkestitarimmtal.com/agro.png');
-                            this.updateOGMeta(ogTitle, ogDesc, ogImg, '/u/' + vu.username);
-                        }
-                        
                         // Kullanıcının postlarını işle
                         const posts = postsRes.data.posts || [];
                         posts.forEach(post => {
@@ -15710,48 +15474,6 @@
                 },
 
                 // ============ SEARCH ============
-                // ═══ OG META GÜNCELLEME (WhatsApp/Instagram paylaşım önizlemesi) ═══
-                updateOGMeta(title, description, imageUrl, pageUrl) {
-                    const base = 'https://sehitumitkestitarimmtal.com';
-                    const fullUrl = pageUrl ? (pageUrl.startsWith('http') ? pageUrl : base + pageUrl) : base;
-                    const fullImg = imageUrl ? (imageUrl.startsWith('http') ? imageUrl : base + imageUrl) : base + '/agro.png';
-                    const setMeta = (id, val) => { const el = document.getElementById(id); if (el) el.setAttribute('content', val); };
-                    document.title = title || 'AgroLink | Dijital Tarım Topluluğu';
-                    setMeta('og-title', title || 'AgroLink');
-                    setMeta('og-description', description || 'Dijital Tarım Topluluğu');
-                    setMeta('og-image', fullImg);
-                    setMeta('og-url', fullUrl);
-                    setMeta('tw-title', title || 'AgroLink');
-                    setMeta('tw-description', description || 'Dijital Tarım Topluluğu');
-                    setMeta('tw-image', fullImg);
-                    const canon = document.getElementById('canonical-url');
-                    if (canon) canon.setAttribute('href', fullUrl);
-                    // history pushState (crawlers okusun)
-                    try { history.replaceState(null, '', pageUrl || '/'); } catch(e) {}
-                },
-
-                // Panoya kopyala
-                async copyToClipboard(text) {
-                    try {
-                        if (navigator.clipboard) {
-                            await navigator.clipboard.writeText(text);
-                        } else {
-                            const ta = document.createElement('textarea');
-                            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-                            document.body.appendChild(ta); ta.select();
-                            document.execCommand('copy'); document.body.removeChild(ta);
-                        }
-                    } catch(e) { console.warn('Kopyalanamadı:', e); }
-                },
-
-                getTimeGreeting() {
-                    const h = new Date().getHours();
-                    if (h >= 5 && h < 12) return 'Günaydın';
-                    if (h >= 12 && h < 17) return 'İyi günler';
-                    if (h >= 17 && h < 21) return 'İyi akşamlar';
-                    return 'İyi geceler';
-                },
-
                 async handleSearch() {
                     if (!this.searchQuery.trim()) {
                         this.searchResults = [];
@@ -16497,19 +16219,20 @@
                 },
                 
                 _tiktokScrollRAF: null,
+                _tiktokLastIndex: -1,
                 handleTikTokScroll(e) {
                     if (this._tiktokScrollRAF) return;
                     this._tiktokScrollRAF = requestAnimationFrame(() => {
                         const container = e.target;
                         const scrollTop = container.scrollTop;
-                        // ✅ DÜZELTME: Gerçek post yüksekliğini ölç (dvh != clientHeight on mobile)
                         const firstPost = container.querySelector('.tiktok-post');
                         const postHeight = firstPost
                             ? firstPost.getBoundingClientRect().height
                             : container.clientHeight;
                         const newIndex = Math.round(scrollTop / postHeight);
                         
-                        if (newIndex !== this.currentTikTokIndex && newIndex >= 0 && newIndex < this.tikTokPosts.length) {
+                        if (newIndex !== this._tiktokLastIndex && newIndex >= 0 && newIndex < this.tikTokPosts.length) {
+                            this._tiktokLastIndex = newIndex;
                             this.currentTikTokIndex = newIndex;
                             
                             // Son videoya yaklaştığında daha fazla video yükle
@@ -16556,12 +16279,12 @@
                 scrollToTikTokPost(index) {
                     const container = document.querySelector('.tiktok-scroll-wrapper');
                     if (container) {
-                        // ✅ DÜZELTME: Gerçek post yüksekliği
                         const firstPost = container.querySelector('.tiktok-post');
                         const postH = firstPost
                             ? firstPost.getBoundingClientRect().height
                             : container.clientHeight;
-                        container.scrollTo({ top: index * postH, behavior: 'smooth' });
+                        // scroll-snap kendi animasyonunu yapıyor — instant kullan
+                        container.scrollTo({ top: index * postH, behavior: 'instant' });
                     }
                 },
                 
